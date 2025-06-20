@@ -1,0 +1,161 @@
+.rent-section {
+  padding: 30px;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f9f9f9;
+}
+
+.rent-section p {
+  font-size: 1.0rem;
+  margin-bottom: 5px;
+  color: #222;
+}
+.rent-section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+  color: #222;
+}
+
+.rent-container {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+/* === Filter Sidebar === */
+/* Container for filters */
+.search-container {
+  width: 250px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-right: 20px;
+}
+
+/* Headings inside filter box */
+.search-container h3,
+.filter-heading {
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-top: 15px;
+}
+
+/* Labels with checkboxes */
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  color: #444;
+}
+
+.checkbox-label input[type="checkbox"] {
+  margin-right: 8px;
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+
+/* === Car Grid and Cards === */
+.car-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  max-width: 1000px;
+}
+
+.car-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.car-card:hover {
+  transform: translateY(-5px);
+}
+
+.car-image1 {
+  width: 100%;
+  height: 200px;
+  object-fit: contain;
+  padding: 10px;
+}
+
+/* === Card Content === */
+.car-info {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+}
+
+.car-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.car-header h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #222;
+  margin: 0;
+}
+
+.car-price {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #045aaf;
+}
+
+.car-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.car-availability {
+  text-align: right;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.available {
+  color: #2e7d32;
+}
+
+.unavailable {
+  color: #c62828;
+}
+
+.view-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #045aaf;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.view-btn:hover {
+  background-color: #03407c;
+}

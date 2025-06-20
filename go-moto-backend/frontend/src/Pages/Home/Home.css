@@ -1,0 +1,505 @@
+/* General Container */
+.home-container {
+  font-family: 'Poppins', sans-serif;
+  color: #000000;
+  background-color: #ffffff;
+}
+
+/* ===== HERO VIDEO SECTION ===== */
+.hero-video-wrapper {
+  position: relative;
+  height: 75vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000;
+}
+
+.hero-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.white-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.2);
+  z-index: 1.5;
+}
+
+.hero-overlay {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: #fff;
+  padding: 2rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-text h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.hero-text p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  max-width: 600px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-primary,
+.btn-outline {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid #007bff;
+  color: #007bff;
+}
+
+.btn-outline:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+/* ===== FEATURES SECTION ===== */
+.features {
+  display: flex;
+  justify-content: space-around;
+  background-color: #e6f0fa;
+  padding: 6px 6px;
+  text-align: center;
+}
+
+.features .feature h4 {
+  margin-top: 10px;
+}
+
+.feature-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+/* ===== BRANDS SLIDER ===== */
+.brands-slider {
+  overflow: hidden;
+  width: 100%;
+  background-color: #f9f9f9;
+  padding: 1.5rem 0;
+}
+
+.brands-track {
+  display: flex;
+  width: fit-content;
+  animation: scrollLeft 25s linear infinite;
+}
+
+.brand-logo {
+  height: 50px;
+  width: 100px;
+  margin: 0 1rem;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.1));
+}
+
+.brand-logo:hover {
+  transform: scale(1.15);
+}
+
+.brands-slider:hover .brands-track {
+  animation-play-state: paused;
+}
+
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* ===== POPULAR RENTS ===== */
+.popular-rents {
+  text-align: center;
+  padding: 50px 20px;
+  background-color: #f9fbfd;
+}
+
+.popular-rents h2 {
+  font-size: 2rem;
+  color: #034fa1;
+}
+
+.popular-rents .subtitle {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.cars {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3rem;
+}
+
+.car-card.enhanced {
+  width: 320px;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.car-card.enhanced:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+}
+
+.car-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-bottom: 1px solid #eee;
+}
+
+.car-info {
+  padding: 16px;
+}
+
+.car-info h3 {
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.price {
+  font-weight: bold;
+  color: #007bff;
+}
+
+.rent-btn {
+  background: #2499d7;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.rent-btn:hover {
+  background: #034184;
+}
+
+.see-all-btn:hover {
+  background: #000;
+}
+
+/* ===== HOW IT WORKS ===== */
+.how-it-works {
+  background: #a7c7e7;
+  padding: 50px 20px;
+  text-align: center;
+}
+
+.flow-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  animation: fadeInFlow 1s ease-in;
+}
+
+.flow-step {
+  background: #fff;
+  padding: 20px 30px;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  min-width: 120px;
+}
+
+.flow-step:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.arrow {
+  font-size: 2rem;
+  animation: bounceArrow 1.2s infinite ease-in-out;
+}
+
+@keyframes fadeInFlow {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceArrow {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+}
+
+/* ===== ADVANTAGES ===== */
+.advantages {
+  background-color: #ffffff;
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.advantage-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.advantage {
+  background-color: #f5f5f5;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+/* ===== ACHIEVEMENTS ===== */
+.achievements {
+  background-color: #a7c7e7;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  padding: 8px 10px;
+}
+
+.achievement-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 550;
+  margin-bottom: 1rem;
+}
+
+.achievement {
+  text-align: center;
+  margin: 1rem;
+}
+
+.achievement h4 {
+  font-size: 1rem;
+  color: #333;
+}
+
+.highlight {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #034fa1;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== CONTACT ===== */
+.contact {
+  background: #fff;
+  text-align: center;
+  padding: 30px 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.contact-title h3 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #034fa1;
+  margin-bottom: 0.5rem;
+}
+
+.contact-details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6rem;
+}
+
+.contact-card {
+  background-color: #a7c7e7;
+  padding: 20px 30px;
+  border-radius: 12px;
+  width: 260px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-card h4 {
+  color: #034fa1;
+  margin-bottom: 10px;
+}
+
+.contact-card p {
+  font-size: 0.95rem;
+  color: #333;
+  margin: 5px 0;
+}
+
+.contact-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== BLOG SECTION ===== */
+.blog {
+  background-color: #fff;
+  padding: 20px 20px;
+  text-align: center;
+}
+
+.blog h3 {
+  font-size: 2rem;
+  color: #034fa1;
+  margin-bottom: 2.5rem;
+  font-weight: 600;
+}
+
+.blog-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4rem;
+}
+
+.blog-card {
+  background-color: #ffffff;
+  width: 400px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.blog-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.blog-card h4 {
+  font-size: 1.1rem;
+  color: #222;
+  margin: 1rem 1rem 0.5rem;
+  font-weight: 600;
+}
+
+.blog-card p {
+  font-size: 0.85rem;
+  color: #666;
+  margin: 0 1rem 1rem;
+}
+
+.blog-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* ===== NEWSLETTER ===== */
+.newsletter {
+  background: #a7c7e7;
+  text-align: center;
+  padding: 40px;
+}
+
+.subscribe {
+  margin-top: 20px;
+}
+
+.subscribe input {
+  padding: 10px;
+  width: 300px;
+  max-width: 90%;
+}
+
+.subscribe button {
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  margin-left: 10px;
+}
+
+/* ===== RESPONSIVE MEDIA ===== */
+@media (max-width: 768px) {
+  .hero-video-wrapper {
+    height: 60vh;
+  }
+
+  .hero-text h1 {
+    font-size: 2rem;
+  }
+
+  .hero-text p {
+    font-size: 1rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+  }
+
+  .brand-logo {
+    width: 80px;
+    margin: 0 0.5rem;
+  }
+
+  .blog-card, .car-card.enhanced {
+    width: 90%;
+  }
+
+  .contact-details {
+    gap: 2rem;
+  }
+}

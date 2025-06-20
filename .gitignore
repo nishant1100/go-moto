@@ -1,0 +1,72 @@
+# === Python / Django ===
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.log
+*.pot
+*.pyc
+db.sqlite3
+env/
+venv/
+.env
+.env.*
+
+# Django media and static files
+/media/
+/static/
+/staticfiles/
+
+# Django migrations (optional: if you don't want to track them)
+/**/migrations/*.py
+!/**/migrations/__init__.py
+
+# === Node / React ===
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependency directories
+node_modules/
+dist/
+build/
+.cache/
+
+# Next.js / SSR build outputs
+dist-ssr/
+
+# Local environment files
+.local
+
+# === VS Code ===
+.vscode/*
+!.vscode/extensions.json
+
+# === macOS / Windows ===
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# === Misc ===
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.bak
+*.tmp
+*.orig
+
+# === Image files that shouldn't be versioned (if applicable) ===
+*.jpeg
+*.jpg
+*.png
+*.gif
+*.ico

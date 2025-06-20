@@ -1,0 +1,27 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block title %}{{ title }} | Vroom Administration{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">Vroom Admin</a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block userlinks %}
+    {{ block.super }}
+    <li id="new-requests">
+        <a href="{% url 'admin:booking_booking_changelist' %}?status=pending">
+            &#x1F514; New requests: {{ new_booking_requests }}
+        </a>
+        <a href="{% url 'admin:accounts_idverification_changelist' %}?status=pending">
+            &#x1F514; New Verification: {{ new_verification_requests }}
+        </a>
+    </li>
+{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'admin.css' %}">
+{% endblock %}

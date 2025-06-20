@@ -1,0 +1,89 @@
+/* Navbar.css */
+.navbar {
+  width: 100%;
+  background-color: #2499d7;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  padding: 0.5rem 1rem;
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin:  auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo img {
+  height: 65px;
+    max-width: 65;
+  object-fit: contain;
+  width: auto;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 3.0rem;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+}
+
+.signin-btn a {
+  background-color: white;
+  color: #2499d7;
+  padding: 0.4rem 0.8rem;
+  border-radius: 5px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.user-icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: white; /* or your navbar text color */
+  padding: 0;
+}
+
+.dropdown-menu {
+  position: absolute;
+  right: 10px;
+  top: 60px; /* adjust depending on navbar height */
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  list-style: none;
+  padding: 0.5rem 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  z-index: 1000;
+}
+
+.dropdown-menu li {
+  padding: 0.5rem 1rem;
+}
+
+.dropdown-menu li a,
+.logout-btn {
+  color: #333;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.dropdown-menu li a:hover,
+.logout-btn:hover {
+  background-color: #f0f0f0;
+}
+
