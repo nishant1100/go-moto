@@ -1,157 +1,135 @@
 import React, { useState } from "react";
-import "./details.css";
+import styles from "./details.module.css";
 import carImage from "../../assets/suv.jpg";
 import { CalendarDays, Fuel, Settings, Users, MoveRight, Snowflake } from "lucide-react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import { format, differenceInCalendarDays } from "date-fns";
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/dist/style.css";
 
 const CarDetails = () => {
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(null);
-
-  const calculateDays = () => {
-    if (!startDate || !endDate) return 0;
-    const diffTime = Math.abs(endDate - startDate);
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  };
+  const [range, setRange] = useState({ from: undefined, to: undefined });
 
   const today = new Date();
-  const oneWeekLater = new Date();
-  oneWeekLater.setDate(today.getDate() + 6);
+  const maxDate = new Date();
+  maxDate.setDate(today.getDate() + 7);
+
+  const calculateDays = () => {
+    if (!range.from || !range.to) return 0;
+    return differenceInCalendarDays(range.to, range.from) + 1;
+  };
 
   return (
-    <section className="car-details-section">
-      <div className="car-details-container">
-        {/* Left Section */}
-        <div className="car-left">
-          <h2>Hyundai Creta</h2>
-          <p className="price">Nrs. 2500 <span>/ day</span></p>
-          <div className="main-img-box">
-            <img src={carImage} alt="Hyundai Creta" className="main-img" />
+    <section className={styles.carDetails}>
+      <div className={styles.topSection}>
+        {/* Left Panel */}
+        <div className={styles.leftPanel}>
+          <h1>Hyundai Creta</h1>
+          <p className={styles.price}>Nrs. <span>2500</span> / day</p>
+          <div className={styles.carImgContainer}>
+            <img src={carImage} alt="Hyundai Creta" className={styles.mainCarImg} />
           </div>
-          <div className="thumbs">
-            <img src={carImage} alt="thumb1" />
-            <img src={carImage} alt="thumb2" />
-            <img src={carImage} alt="thumb3" />
+          <div className={styles.thumbnails}>
+            {[1, 2, 3].map((_, i) => (
+              <img key={i} src={carImage} alt={`thumb-${i}`} />
+            ))}
           </div>
         </div>
 
-        {/* Right Section */}
-        <div className="car-right">
-          <h3>Technical Specification</h3>
-          <div className="tech-grid">
-            <div className="tech-box">
-              <Settings size={20} />
-              <p>Gear Box<br /><strong>Automat</strong></p>
-            </div>
-            <div className="tech-box">
-              <Fuel size={20} />
-              <p>Fuel<br /><strong>Petrol</strong></p>
-            </div>
-            <div className="tech-box">
-              <MoveRight size={20} />
-              <p>Doors<br /><strong>4</strong></p>
-            </div>
-            <div className="tech-box">
-              <Snowflake size={20} />
-              <p>Air Conditioner<br /><strong>Yes</strong></p>
-            </div>
-            <div className="tech-box">
-              <Users size={20} />
-              <p>Seats<br /><strong>5</strong></p>
-            </div>
-            <div className="tech-box">
-              <CalendarDays size={20} />
-              <p>Distance<br /><strong>500</strong></p>
-            </div>
+        {/* Right Panel */}
+        <div className={styles.rightPanel}>
+          <h2>Technical Specification</h2>
+          <div className={styles.specsGrid}>
+            <div><Settings size={18} /> <p>Gear Box<br /><strong>Automat</strong></p></div>
+            <div><Fuel size={18} /> <p>Fuel<br /><strong>Petrol</strong></p></div>
+            <div><MoveRight size={18} /> <p>Doors<br /><strong>4</strong></p></div>
+            <div><Snowflake size={18} /> <p>AC<br /><strong>Yes</strong></p></div>
+            <div><Users size={18} /> <p>Seats<br /><strong>5</strong></p></div>
+            <div><CalendarDays size={18} /> <p>Distance<br /><strong>500</strong></p></div>
           </div>
 
-          <h4>Car Equipment</h4>
-          <div className="equipment-wrap">
-            <span>✅ ABS</span>
-            <span>✅ Seat Belt Warning</span>
-            <span>✅ Cruise Control</span>
-            <span>✅ Air Conditioner</span>
-            <span>✅ Air Bags</span>
-            <span>✅ GPS Navigation System</span>
+          <h3>Car Equipment</h3>
+          <div className={styles.equipmentList}>
+            {["ABS", "Seat Belt Warning", "Cruise Control", "Air Conditioner", "Air Bags", "GPS Navigation System"].map((eq, idx) => (
+              <span key={idx}>✅ {eq}</span>
+            ))}
           </div>
 
-          <div className="date-section">
-            <h4>Select Dates</h4>
-            <DatePicker
-              selectsRange
-              startDate={startDate}
-              endDate={endDate}
-              onChange={(dates) => {
-                const [start, end] = dates;
-                setStartDate(start);
-                setEndDate(end);
+          <h3>Select Dates</h3>
+          <div className={styles.customCalendar}>
+            <DayPicker
+              mode="range"
+              selected={range}
+              onSelect={(selectedRange) => {
+                if (
+                  selectedRange?.from &&
+                  selectedRange?.to &&
+                  differenceInCalendarDays(selectedRange.to, selectedRange.from) > 6
+                ) {
+                  alert("You can only rent for up to 7 days.");
+                  return;
+                }
+                setRange(selectedRange);
               }}
-              minDate={today}
-              maxDate={oneWeekLater}
-              dateFormat="MMMM d, yyyy"
-              inline
+              disabled={{
+                before: today,
+                after: maxDate,
+              }}
+              defaultMonth={today}
+              numberOfMonths={1}
             />
-            {startDate && endDate && (
-              <p><strong>Total Days:</strong> {calculateDays()} day(s)</p>
-            )}
           </div>
 
-          <div className="btn-group">
-            <button className="rent">Rent a car</button>
-            <button className="back">Back</button>
+          {range.from && range.to && (
+            <p className={styles.daysSelected}>
+              Total Days: <strong>{calculateDays()}</strong><br />
+              From: {format(range.from, "MMMM d, yyyy")}<br />
+              To: {format(range.to, "MMMM d, yyyy")}
+            </p>
+          )}
+
+          <div className={styles.btnWrapper}>
+            <button className={styles.rentBtn}>Rent a car</button>
+            <button className={styles.backBtn}>Back</button>
           </div>
         </div>
       </div>
 
-      <div className="reviews">
-        <h3>Reviews <span className="review-count">13</span></h3>
-        <div className="review-box">
-          <p><strong>Ramesh Shrestha</strong></p>
+      {/* Reviews Section */}
+      <div className={styles.reviewsSection}>
+        <h2>Reviews <span className={styles.countBadge}>13</span></h2>
+        <div className={styles.reviewCard}>
+          <strong>Ramesh Shrestha</strong>
           <p>We are very happy with the service from the Go Moto. Go Moto has a low price and also a large variety of cars with good and comfortable facilities.</p>
           <p>⭐⭐⭐⭐</p>
         </div>
-        <div className="review-box">
-          <p><strong>Prisha Shrestha</strong></p>
-          <p>We are greatly helped by the services of the Go Moto. Go Moto has low prices and the service provided by the officers is also very friendly.</p>
+        <div className={styles.reviewCard}>
+          <strong>Prisha Shrestha</strong>
+          <p>We are greatly helped by the services of Go Moto. Go Moto has low prices and the service provided by the officers is also very friendly.</p>
           <p>⭐⭐⭐⭐</p>
         </div>
-        <p className="show-all">Show All ▼</p>
+        <p className={styles.showMore}>Show All ▼</p>
       </div>
 
-      <div className="you-may-like">
-        <h3>You may also like</h3>
-        <div className="card-list">
-          <div className="card">
-            <img src={carImage} alt="Porsche" />
-            <h4>Porsche</h4>
-            <p>Nrs.2500 <span>per day</span></p>
-            <div className="icons">
-              <p>⚙ Automat</p>
-              <p>❄ Air Conditioner</p>
+      {/* You May Also Like Section */}
+      <div className={styles.recommendSection}>
+        <h2>You may also like</h2>
+        <div className={styles.carCards}>
+          {[
+            { name: "Porsche", gear: "Automat" },
+            { name: "Toyota", gear: "Manual" },
+            { name: "Suzuki", gear: "Manual" },
+          ].map((car, index) => (
+            <div className={styles.carCard} key={index}>
+              <img src={carImage} alt={car.name} />
+              <h4>{car.name}</h4>
+              <p>Nrs. 2500 <span>per day</span></p>
+              <div className={styles.cardIcons}>
+                <p>⚙ {car.gear}</p>
+                <p>❄ Air Conditioner</p>
+              </div>
+              <button className={styles.cardBtn}>View Details</button>
             </div>
-            <button>View Details</button>
-          </div>
-          <div className="card">
-            <img src={carImage} alt="Toyota" />
-            <h4>Toyota</h4>
-            <p>Nrs.2500 <span>per day</span></p>
-            <div className="icons">
-              <p>⚙ Manual</p>
-              <p>❄ Air Conditioner</p>
-            </div>
-            <button>View Details</button>
-          </div>
-          <div className="card">
-            <img src={carImage} alt="Porsche" />
-            <h4>Porsche</h4>
-            <p><span>Per day</span></p>
-            <div className="icons">
-              <p>⚙ Automat</p>
-              <p>❄ Air Conditioner</p>
-            </div>
-            <button>View Details</button>
-          </div>
+          ))}
         </div>
       </div>
     </section>
