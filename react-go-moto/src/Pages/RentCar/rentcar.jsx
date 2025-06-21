@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./rentcar.css";
-import carImage from "../../assets/suv.jpg";
+import carImage from "../../assets/hyundai.png";
 
 const carData = [
   { name: "Hyundai Creta", type: "Sedan", price: 2500, transmission: "Automat", ac: true, location: "Kathmandu", available: true },

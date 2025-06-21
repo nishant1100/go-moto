@@ -1,13 +1,25 @@
 import React, { useState } from "react";
 import styles from "./details.module.css";
-import carImage from "../../assets/suv.jpg";
 import { CalendarDays, Fuel, Settings, Users, MoveRight, Snowflake } from "lucide-react";
 import { format, differenceInCalendarDays } from "date-fns";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 
+// ✅ Main image shown on top
+import mainImage from "../../assets/hyundai.png";
+
+// ✅ Mini thumbnail images
+import carImage1 from "../../assets/carImage.png";
+import carImage2 from "../../assets/carImage2.png";
+import carImage3 from "../../assets/carImage3.png";
+
+const images = [carImage1, carImage2, carImage3];
+
 const CarDetails = () => {
   const [range, setRange] = useState({ from: undefined, to: undefined });
+  const [mainImg, setMainImg] = useState(mainImage);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalImage, setModalImage] = useState(mainImage);
 
   const today = new Date();
   const maxDate = new Date();
@@ -18,28 +30,74 @@ const CarDetails = () => {
     return differenceInCalendarDays(range.to, range.from) + 1;
   };
 
+  const openModal = (img) => {
+    setModalImage(img);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <section className={styles.carDetails}>
       <div className={styles.topSection}>
         {/* Left Panel */}
         <div className={styles.leftPanel}>
           <h1>Hyundai Creta</h1>
-          <p className={styles.price}>Nrs. <span>2500</span> / day</p>
+          <p className={styles.price}>
+            Nrs. <span>2500</span> / day
+          </p>
           <div className={styles.carImgContainer}>
-            <img src={carImage} alt="Hyundai Creta" className={styles.mainCarImg} />
+            <img
+              src={mainImg}
+              alt="Hyundai Creta"
+              className={styles.mainCarImg}
+              onClick={() => openModal(mainImg)}
+            />
+            <div className={styles.thumbnails}>
+              {images.map((img, i) => (
+                <img
+                  key={i}
+                  src={img}
+                  alt={`thumb-${i}`}
+                  onClick={() => {
+                    openModal(img);
+                  }}
+                />
+              ))}
+            </div>
           </div>
-          <div className={styles.thumbnails}>
-            {[1, 2, 3].map((_, i) => (
-              <img key={i} src={carImage} alt={`thumb-${i}`} />
-            ))}
-          </div>
+
+          {/* Image Modal */}
+          {isModalOpen && (
+            <div className={styles.modalOverlay} onClick={closeModal}>
+              <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+                <img src={modalImage} alt="Preview" className={styles.modalMainImg} />
+                <div className={styles.modalThumbnails}>
+                  {images.map((img, i) => (
+                    <img
+                      key={i}
+                      src={img}
+                      alt={`modal-thumb-${i}`}
+                      className={img === modalImage ? styles.activeThumb : ""}
+                      onClick={() => setModalImage(img)}
+                    />
+                  ))}
+                </div>
+                <button onClick={closeModal} className={styles.modalCloseBtn}>
+                  ×
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Right Panel */}
         <div className={styles.rightPanel}>
           <h2>Technical Specification</h2>
           <div className={styles.specsGrid}>
-            <div><Settings size={18} /> <p>Gear Box<br /><strong>Automat</strong></p></div>
+            <div><Settings size={18} /> <p>Gear Box<br /><strong>Manual</strong></p></div>
             <div><Fuel size={18} /> <p>Fuel<br /><strong>Petrol</strong></p></div>
             <div><MoveRight size={18} /> <p>Doors<br /><strong>4</strong></p></div>
             <div><Snowflake size={18} /> <p>AC<br /><strong>Yes</strong></p></div>
@@ -113,21 +171,46 @@ const CarDetails = () => {
       {/* You May Also Like Section */}
       <div className={styles.recommendSection}>
         <h2>You may also like</h2>
-        <div className={styles.carCards}>
+        <div className={styles.cardGrid}>
           {[
-            { name: "Porsche", gear: "Automat" },
-            { name: "Toyota", gear: "Manual" },
-            { name: "Suzuki", gear: "Manual" },
-          ].map((car, index) => (
-            <div className={styles.carCard} key={index}>
-              <img src={carImage} alt={car.name} />
-              <h4>{car.name}</h4>
-              <p>Nrs. 2500 <span>per day</span></p>
-              <div className={styles.cardIcons}>
-                <p>⚙ {car.gear}</p>
-                <p>❄ Air Conditioner</p>
+            {
+              name: "Hyundai Creta",
+              price: 2500,
+              type: "Sedan",
+              transmission: "Automat",
+              availability: true,
+            },
+            {
+              name: "Mercedes",
+              price: 3000,
+              type: "Sport",
+              transmission: "Manual",
+              availability: true,
+            },
+            {
+              name: "Mercedes",
+              price: 2700,
+              type: "Sedan",
+              transmission: "Automat",
+              availability: true,
+            },
+          ].map((car, idx) => (
+            <div className={styles.carRecommendationCard} key={idx}>
+              <img src={mainImage} alt={car.name} />
+              <div className={styles.carTitleRow}>
+                <h3>{car.name}</h3>
+                <p className={styles.pricePerDay}>
+                  Nrs. {car.price} <span>/ day</span>
+                </p>
               </div>
-              <button className={styles.cardBtn}>View Details</button>
+              <div className={styles.carMeta}>
+                <p>{car.type}</p>
+                <p>{car.transmission}</p>
+              </div>
+              <p className={`${styles.availability} ${car.availability ? styles.available : styles.unavailable}`}>
+                {car.availability ? "Available" : "Unavailable"}
+              </p>
+              <button className={styles.viewDetailsBtn}>View Details</button>
             </div>
           ))}
         </div>
