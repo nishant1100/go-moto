@@ -107,8 +107,9 @@
 }
 
 .modalMainImage {
-  width: 150%;
-  max-width: 1000px;
+  width: 100%;
+  max-width: 700px;
+  height: auto;
   border-radius: 12px;
   object-fit: contain;
 }

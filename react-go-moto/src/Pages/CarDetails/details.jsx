@@ -73,7 +73,7 @@ const CarDetails = () => {
           {isModalOpen && (
             <div className={styles.modalOverlay} onClick={closeModal}>
               <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-                <img src={modalImage} alt="Preview" className={styles.modalMainImg} />
+                <img src={modalImage} alt="Preview" className={styles.modalMainImage} />
                 <div className={styles.modalThumbnails}>
                   {images.map((img, i) => (
                     <img
