@@ -1,9 +1,11 @@
 .blogPage {
+  background-color: #ffffff;
   padding: 40px;
   font-family: 'Segoe UI', sans-serif;
 }
 
 .header {
+  color: #000000;
   font-size: 36px;
   font-weight: bold;
   margin-bottom: 20px;
@@ -11,6 +13,7 @@
 }
 
 .trendingSection {
+  color: #000000;
   margin-bottom: 50px;
 }
 
@@ -24,7 +27,7 @@
 .trendingCard {
   flex: 1;
   min-width: 250px;
-  background: #f7f7f7;
+  background: #a7c7e7;
   padding: 10px;
   border-radius: 16px;
   overflow: hidden;
@@ -32,13 +35,14 @@
 
 .trendingCard img {
   width: 100%;
-  height: 150px;
+  height: 200px;
   object-fit: cover;
   border-radius: 12px;
   margin-bottom: 10px;
 }
 
 .trendingCard h4 {
+  color: #000000;
   font-size: 16px;
   margin-bottom: 5px;
 }
@@ -55,6 +59,7 @@
 }
 
 .allPostsSection h2 {
+  color: #000000;
   font-size: 24px;
   margin-bottom: 20px;
 }
@@ -77,6 +82,7 @@
 }
 
 .postContent h3 {
+  color: #000000;
   font-size: 20px;
   margin-bottom: 8px;
 }
@@ -104,4 +110,26 @@
   padding: 8px 16px;
   border-radius: 6px;
   cursor: pointer;
+}
+/* Right-align the button */
+.readMoreWrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+}
+
+.trreadBtn {
+  margin-top: -40px;
+  background-color: #3f83f8;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+.trreadBtn:hover {
+  background-color: #265fd8;
 }
