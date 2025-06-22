@@ -9,7 +9,7 @@ import SignUp from '@/Pages/Register/Signup';
 import Home from '@/Pages/Home/Home';
 import RentCars from './Pages/RentCar/rentcar';
 import CarDetails from "./Pages/CarDetails/details";
- // ✅ Import CarDetails
+import Blog from '@/Pages/Blog/blog'; // ✅ Blog Import
 
 import './App.css';
 
@@ -25,7 +25,8 @@ function App() {
             <Route path="/register" element={<SignUp />} />
             <Route path="/home" element={<Home />} />
             <Route path="/rent-cars" element={<RentCars />} />
-            <Route path="/car-details/:slug" element={<CarDetails />} /> {/* ✅ Added CarDetails route */}
+            <Route path="/car-details/:slug" element={<CarDetails />} />
+            <Route path="/blog" element={<Blog />} /> 
           </Routes>
         </main>
         <Footer />
