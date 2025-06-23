@@ -434,6 +434,24 @@
   background-color: #003c9e;
 }
 
+.recommendSlider {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 10px 0;
+  scroll-behavior: smooth;
+}
+
+.recommendSlider::-webkit-scrollbar {
+  height: 6px;
+}
+
+.recommendSlider::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+
 
 
 

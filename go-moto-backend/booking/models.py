@@ -3,6 +3,7 @@ from accounts.models import CustomUser
 from datetime import datetime
 from django.db.models import Sum
 
+
 class Car(models.Model):
     AVAILABILITY_CHOICES = [
         ('available', 'Available'),
@@ -10,14 +11,14 @@ class Car(models.Model):
         ('maintenance', 'Maintenance'),
     ]
 
-    LOCATION_CHOICES = [('Kathmandu','Kathmandu'),('Pokhara','Pokhara')]
+    LOCATION_CHOICES = [('Kathmandu','Kathmandu'),('Pokhara','Pokhara'), ('Biratnagar','Biratnagar'), ('Lalitpur','Lalitpur'), ('Bhaktapur','Bhaktapur')]
     TYPES = [('Sedan','Sedan'),('Sports','Sports'),('SUV','SUV'),('EV','EV'),('MPV','MPV')]
 
+    name = models.CharField(max_length=100)
     car_location = models.CharField(max_length=100, choices=LOCATION_CHOICES)
     availability = models.CharField(max_length=20, choices=AVAILABILITY_CHOICES, default='available')
-    image = models.ImageField(upload_to='car_images/', blank=False, null=True)
-    hourly_rate = models.DecimalField(max_digits=10, decimal_places=2)
-
+    image = models.ImageField(upload_to='car_images/', blank=False, null=True)  # Main image
+    daily_rate = models.DecimalField(max_digits=10, decimal_places=2)  # ⬅️ changed from hourly to daily
     type = models.CharField(max_length=20, choices=TYPES, default='Unknown')
     model = models.CharField(max_length=100)
     mileage = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
@@ -25,6 +26,17 @@ class Car(models.Model):
     seats = models.IntegerField(default=0)
     luggage = models.IntegerField(default=0)
     fuel = models.CharField(max_length=50)
+    doors = models.IntegerField(default=4)
+    has_ac = models.BooleanField(default=True)
+    distance = models.DecimalField(max_digits=6, decimal_places=2, default=0.0)  # e.g., 8.5 km
+
+     # Equipment choices
+    abs = models.BooleanField(default=False)
+    seat_belt_warning = models.BooleanField(default=False)
+    cruise_control = models.BooleanField(default=False)
+    air_conditioner = models.BooleanField(default=False)
+    air_bags = models.BooleanField(default=False)
+    gps_navigation = models.BooleanField(default=False)
 
 
     def __str__(self):
@@ -50,6 +62,17 @@ class Car(models.Model):
             writer.writeheader()
             for car in cars:
                 writer.writerow({'Car Type': car.type, 'Car Model': car.model, 'Revenue': car.calculate_revenue()})
+
+# 🔁 Multiple images model
+class CarImage(models.Model):
+    car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to='car_gallery/')
+
+    def __str__(self):
+        return f"Image for {self.car.name}"
+
+
+
 
 
 class Booking(models.Model):

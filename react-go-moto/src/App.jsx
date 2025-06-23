@@ -1,15 +1,15 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
-import Navbar from '@/components/Navbar/Navbar';
 import Footer from '@/components/Footer/Footer';
+import Navbar from '@/components/Navbar/Navbar';
 
-import Login from '@/Pages/Login/Login';
-import SignUp from '@/Pages/Register/Signup'; 
+import Blog from '@/Pages/Blog/blog';
 import Home from '@/Pages/Home/Home';
-import RentCars from './Pages/RentCar/rentcar';
+import Login from '@/Pages/Login/Login';
+import SignUp from '@/Pages/Register/Signup';
 import CarDetails from "./Pages/CarDetails/details";
-import Blog from '@/Pages/Blog/blog'; // ✅ Blog Import
+// import RentSummary from './Pages/Rent/RentSummary'; 
+import RentCars from './Pages/RentCar/rentcar';
 
 import './App.css';
 
@@ -25,8 +25,9 @@ function App() {
             <Route path="/register" element={<SignUp />} />
             <Route path="/home" element={<Home />} />
             <Route path="/rent-cars" element={<RentCars />} />
-            <Route path="/car-details/:slug" element={<CarDetails />} />
-            <Route path="/blog" element={<Blog />} /> 
+            <Route path="/car-details/:id" element={<CarDetails />} />
+            {/* <Route path="/rent-summary/:id" element={<RentSummary />} /> */}
+            <Route path="/blog" element={<Blog />} />
           </Routes>
         </main>
         <Footer />

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .forms import CarSearchForm
-from .models import Car
+from .models import Car, CarImage
 from decimal import Decimal
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -74,6 +74,91 @@ def available_cars(request):
         'query': query, 
         # Pass other context variables as needed
     })
+
+def car_list_api(request):
+    cars = Car.objects.all()
+
+    # Filtering
+    car_location = request.GET.getlist('car_location')
+    types = request.GET.getlist('type')
+    availability = request.GET.getlist('availability')
+
+    if car_location:
+        cars = cars.filter(car_location__in=car_location)
+    if types:
+        cars = cars.filter(type__in=types)
+    if availability:
+        cars = cars.filter(availability__in=availability)
+
+    # Serializing
+    car_data = []
+    for car in cars:
+        # ✅ Get additional images
+        images = CarImage.objects.filter(car=car)
+        image_urls = [img.image.url for img in images]
+
+        # ✅ Get equipment list (assuming ManyToMany)
+        equipment_list = list(car.equipment.values_list('name', flat=True)) if hasattr(car, 'equipment') else []
+
+        car_data.append({
+            'id': car.id,
+            'name': car.model,
+            'type': car.type,
+            'price': float(car.daily_rate),
+            'transmission': car.transmission,
+            'ac': car.has_ac,
+            'doors': car.doors,
+            'fuel': car.fuel,
+            'seats': car.seats,
+            'mileage': car.mileage,
+            'luggage': car.luggage,
+            'location': car.car_location,
+            'available': car.availability == 'available',
+            'image': car.image.url if car.image else None,
+            'images': image_urls,
+            'equipment': equipment_list,
+        })
+
+    return JsonResponse({'cars': car_data})
+
+def car_detail_api(request, id):
+    car = get_object_or_404(Car, id=id)
+    images = CarImage.objects.filter(car=car)
+    image_urls = [img.image.url for img in images]
+
+    # Collect all equipment flags dynamically
+    equipment_map = {
+        'ABS': car.abs,
+        'Seat Belt Warning': car.seat_belt_warning,
+        'Cruise Control': car.cruise_control,
+        'Air Conditioner': car.air_conditioner,
+        'Air Bags': car.air_bags,
+        'GPS Navigation System': car.gps_navigation
+    }
+    selected_equipment = [key for key, value in equipment_map.items() if value]
+
+    data = {
+        'id': car.id,
+        'name': car.model,
+        'type': car.type,
+        'price': float(car.daily_rate),
+        'transmission': car.transmission,
+        'fuel': car.fuel,
+        'doors': car.doors,
+        'ac': car.has_ac,
+        'seats': car.seats,
+        'mileage': float(car.mileage),
+        'distance': float(car.distance),
+        'luggage': car.luggage,
+        'available': car.availability == 'available',
+        'location': car.car_location,
+        'image': car.image.url if car.image else None,
+        'images': image_urls,
+        'equipment': selected_equipment,
+    }
+
+    return JsonResponse(data)
+
 
 @login_required(login_url='login')
 def book_car(request, car_id):

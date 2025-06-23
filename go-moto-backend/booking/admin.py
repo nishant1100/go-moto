@@ -16,10 +16,20 @@ import csv
 from django.db.models import Count
 from django.db.models.functions import TruncDate
 
+from django.contrib import admin
+from django.utils.html import format_html
+from django.http import HttpResponse
+from django.urls import path
+from django.db.models import Sum
+import csv
+
+from .models import Car, CarImage, Booking  # make sure Booking is imported if used
+
+
 @admin.register(Car)
 class CarAdmin(admin.ModelAdmin):
-    list_display = ['model', 'availability', 'hourly_rate', 'display_image']
-    search_fields = [ 'model','availability', 'hourly_rate']
+    list_display = ['model', 'availability', 'daily_rate', 'display_image']
+    search_fields = ['model', 'availability', 'daily_rate']
     list_editable = ['availability']
 
     def display_image(self, obj):
@@ -52,12 +62,12 @@ class CarAdmin(admin.ModelAdmin):
         response['Content-Disposition'] = 'attachment; filename="revenue_report.csv"'
 
         writer = csv.writer(response)
-        writer.writerow(['Rank', 'Car Model', 'Availability', 'Hourly Rate', 'Number of Bookings', 'Average Booking Duration (hours)', 'Revenue'])
+        writer.writerow(['Rank', 'Car Model', 'Availability', 'Daily Rate', 'Number of Bookings', 'Average Booking Duration (hours)', 'Revenue'])
         for car in cars:
-            writer.writerow([car.rank, car.model, car.availability, car.hourly_rate, car.num_bookings, car.avg_booking_duration, car.revenue])
+            writer.writerow([car.rank, car.model, car.availability, car.daily_rate, car.num_bookings, car.avg_booking_duration, car.revenue])
 
         return response
-    
+   
     
 
     def revenue_report(self, request, order='desc'):
@@ -79,6 +89,16 @@ class CarAdmin(admin.ModelAdmin):
         for i, car in enumerate(cars, start=1):
             car.rank = i
         return render(request, 'admin/revenue_report.html', {'cars': cars})
+
+
+# Register multiple images inline
+class CarImageInline(admin.TabularInline):
+    model = CarImage
+    extra = 1
+
+
+# Attach CarImageInline to CarAdmin
+CarAdmin.inlines = [CarImageInline]
 
 
 admin.site.unregister(Car)

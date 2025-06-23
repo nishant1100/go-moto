@@ -1,28 +1,47 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./rentcar.css";
-import carImage from "../../assets/hyundai.png";
-
-const carData = [
-  { name: "Hyundai Creta", type: "Sedan", price: 2500, transmission: "Automat", ac: true, location: "Kathmandu", available: true },
-  { name: "Mercedes", type: "Sport", price: 3000, transmission: "Manual", ac: true, location: "Kathmandu", available: false },
-  { name: "Mercedes", type: "Sedan", price: 2700, transmission: "Automat", ac: true, location: "Kathmandu", available: true },
-  { name: "Porsche", type: "SUV", price: 3500, transmission: "Automat", ac: true, location: "Pokhara", available: false },
-  { name: "Toyota", type: "Sedan", price: 2300, transmission: "Manual", ac: true, location: "Kathmandu", available: true },
-  { name: "Porsche", type: "SUV", price: 3600, transmission: "Automat", ac: true, location: "Pokhara", available: true },
-  { name: "Porsche", type: "Sport", price: 3600, transmission: "Automat", ac: true, location: "Pokhara", available: true },
-  { name: "Porsche", type: "Sport", price: 3600, transmission: "Automat", ac: true, location: "Pokhara", available: false },
-  { name: "Porsche", type: "SUV", price: 3600, transmission: "Automat", ac: true, location: "Pokhara", available: true },
-];
 
 const RentCars = () => {
   const navigate = useNavigate();
 
+  const [carData, setCarData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState({
     type: [],
     location: [],
     availableOnly: false,
   });
+
+  // Fetch data from API
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let query = [];
+
+        if (filters.type.length > 0) {
+          query.push(`type=${filters.type.join('&type=')}`);
+        }
+        if (filters.location.length > 0) {
+          query.push(`car_location=${filters.location.join('&car_location=')}`);
+        }
+        if (filters.availableOnly) {
+          query.push(`availability=available`);
+        }
+
+        const url = `http://127.0.0.1:8000/api/cars/?${query.join('&')}`;
+        const response = await fetch(url);
+        const data = await response.json();
+        console.log("Fetched car data:", data.cars);
+        setCarData(data.cars);
+        setLoading(false);
+      } catch (err) {
+        console.error("Failed to fetch car data:", err);
+      }
+    };
+
+    fetchData();
+  }, [filters]);
 
   const handleCheckboxChange = (e) => {
     const { name, value, checked } = e.target;
@@ -39,16 +58,11 @@ const RentCars = () => {
     }
   };
 
-  const filteredCars = carData.filter((car) => {
-    const matchType = filters.type.length ? filters.type.includes(car.type) : true;
-    const matchLocation = filters.location.length ? filters.location.includes(car.location) : true;
-    const matchAvailable = filters.availableOnly ? car.available === true : true;
-    return matchType && matchLocation && matchAvailable;
-  });
-
   const handleViewDetails = (car) => {
-    const slug = car.name.toLowerCase().replace(/\s+/g, "-"); // hyundai-creta
-    navigate(`/car-details/${slug}`, { state: { car } });
+    const slug = car.name.toLowerCase().replace(/\s+/g, "-");
+    console.log("Navigating to car details for:", car.id);
+    navigate(`/car-details/${car.id}`);
+
   };
 
   return (
@@ -60,60 +74,37 @@ const RentCars = () => {
         <div className="search-container">
           <h3>Search Filters</h3>
           <form>
+            {/* Car Type */}
             <label className="filter-heading">Car Type</label>
-            <label className="checkbox-label">
-              <input
-                type="checkbox"
-                name="type"
-                value="Sedan"
-                checked={filters.type.includes("Sedan")}
-                onChange={handleCheckboxChange}
-              />
-              Sedan
-            </label>
-            <label className="checkbox-label">
-              <input
-                type="checkbox"
-                name="type"
-                value="Sport"
-                checked={filters.type.includes("Sport")}
-                onChange={handleCheckboxChange}
-              />
-              Sport
-            </label>
-            <label className="checkbox-label">
-              <input
-                type="checkbox"
-                name="type"
-                value="SUV"
-                checked={filters.type.includes("SUV")}
-                onChange={handleCheckboxChange}
-              />
-              SUV
-            </label>
+            {["Sedan", "Sports", "SUV"].map((type) => (
+              <label className="checkbox-label" key={type}>
+                <input
+                  type="checkbox"
+                  name="type"
+                  value={type}
+                  checked={filters.type.includes(type)}
+                  onChange={handleCheckboxChange}
+                />
+                {type}
+              </label>
+            ))}
 
+            {/* Location */}
             <label className="filter-heading">Location</label>
-            <label className="checkbox-label">
-              <input
-                type="checkbox"
-                name="location"
-                value="Kathmandu"
-                checked={filters.location.includes("Kathmandu")}
-                onChange={handleCheckboxChange}
-              />
-              Kathmandu
-            </label>
-            <label className="checkbox-label">
-              <input
-                type="checkbox"
-                name="location"
-                value="Pokhara"
-                checked={filters.location.includes("Pokhara")}
-                onChange={handleCheckboxChange}
-              />
-              Pokhara
-            </label>
+            {["Kathmandu", "Pokhara"].map((loc) => (
+              <label className="checkbox-label" key={loc}>
+                <input
+                  type="checkbox"
+                  name="location"
+                  value={loc}
+                  checked={filters.location.includes(loc)}
+                  onChange={handleCheckboxChange}
+                />
+                {loc}
+              </label>
+            ))}
 
+            {/* Availability */}
             <label className="filter-heading checkbox-label">
               <input
                 type="checkbox"
@@ -128,10 +119,17 @@ const RentCars = () => {
 
         {/* Car Cards */}
         <div className="car-grid">
-          {filteredCars.length > 0 ? (
-            filteredCars.map((car, index) => (
+          {loading ? (
+            <p>Loading cars...</p>
+          ) : carData.length > 0 ? (
+            carData.map((car, index) => (
               <div className="car-card" key={index}>
-                <img src={carImage} alt={car.name} className="car-image1" />
+                <img
+                  src={car.image ? `http://127.0.0.1:8000${car.image}` : require("../../assets/hyundai.png")}
+                  alt={car.name}
+                  className="car-image1"
+                />
+
                 <div className="car-info">
                   <div className="car-header">
                     <h4>{car.name}</h4>
