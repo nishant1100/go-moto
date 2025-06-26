@@ -1,5 +1,7 @@
 from django.urls import path
 from .views import available_cars, book_car,view_bookings,search_cars,cancel_booking,payment,submit_review, car_list_api, car_detail_api
+from .views import available_cars, book_car, view_bookings, search_cars, cancel_booking, payment, submit_review, car_list_api, car_detail_api, popular_cars_api
+
 
 urlpatterns = [
     path('available-cars/', available_cars, name='available_cars'),
@@ -12,6 +14,7 @@ urlpatterns = [
     path('cancel_booking/', cancel_booking, name='cancel_booking'),
     path('submit_review/<int:car_id>', submit_review, name='submit_review'),
     path('payment/<int:car_id>/<str:pickup_datetime>/<str:dropoff_datetime>/<str:total_price>/', payment, name='payment'), 
+    path('api/cars/popular/', popular_cars_api, name='popular-cars-api'),
 
     # Add other URLs here if needed
 ]

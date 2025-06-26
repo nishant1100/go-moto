@@ -8,7 +8,7 @@ import Home from '@/Pages/Home/Home';
 import Login from '@/Pages/Login/Login';
 import SignUp from '@/Pages/Register/Signup';
 import CarDetails from "./Pages/CarDetails/details";
-// import RentSummary from './Pages/Rent/RentSummary'; 
+import RentSummary from './Pages/Rent/RentSummary'; 
 import RentCars from './Pages/RentCar/rentcar';
 
 import './App.css';
@@ -26,7 +26,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/rent-cars" element={<RentCars />} />
             <Route path="/car-details/:id" element={<CarDetails />} />
-            {/* <Route path="/rent-summary/:id" element={<RentSummary />} /> */}
+            <Route path="/rent-summary/:id" element={<RentSummary />} /> 
             <Route path="/blog" element={<Blog />} />
           </Routes>
         </main>

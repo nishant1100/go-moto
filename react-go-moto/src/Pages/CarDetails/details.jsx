@@ -111,7 +111,6 @@ const CarDetails = () => {
                   src={img}
                   alt={`thumb-${idx}`}
                   onClick={() => {
-                    setMainImg(img);
                     openModal(img);
                   }}
                 />

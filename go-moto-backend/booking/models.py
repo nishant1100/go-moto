@@ -101,7 +101,8 @@ class Review(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     car = models.ForeignKey(Car, related_name='reviews', on_delete=models.CASCADE)
     content = models.TextField()
-    rating = models.IntegerField(default=0)  # New rating field
+    rating = models.IntegerField(default=0)
     approved = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)  
+

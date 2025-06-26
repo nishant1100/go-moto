@@ -9,19 +9,23 @@
 /* ====== Layout ====== */
 .topSection {
   display: flex;
-  flex-wrap: wrap;
-  gap: 60px;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 90px; /* Decrease this to reduce the space */
+  padding: 20px;
+  flex-wrap: wrap; /* This helps with responsiveness */
 }
 
 .leftPanel {
-  margin-right: 55px;
-  flex: 1.5;
-  min-width: 300px;
+  flex: 1;
+  min-width: 0;
+  max-width: 48%;
 }
 
 .rightPanel {
-  flex: 0.9;
-  min-width: 200px;
+  flex: 1;
+  min-width: 0;
+  max-width: 40%;
 }
 
 /* ====== Left Side ====== */
@@ -45,39 +49,49 @@
 }
 
 .carImgContainer {
-  background: #e6f0ff;
-  border-radius: 16px;
-  padding: 20px;
-  margin: 20px 0;
-  height: 545px;
+  width: 100%;
+  max-width: 700px;
+  height: 580px; /* consistent height */
+  background-color: #f4f8ff;
+  padding: 10px;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
 .mainCarImg {
   width: 100%;
-  border-radius: 10px;
-  object-fit: cover;
-  cursor: pointer;
+  height: 100%;
+  object-fit: contain; /* force it to fit inside frame */
+  border-radius: 12px;
+  background-color: #ffffff;
 }
-
 .thumbnails {
-  margin-top: 10px;
   display: flex;
-  gap: 15px;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap; /* wrap if more thumbnails */
+  width: 100%;
 }
 
 .thumbnails img {
-  width: 90px;
-  height: 70px;
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
   object-fit: cover;
-  border-radius: 8px;
   cursor: pointer;
-  border: 1px solid #ccc;
-  transition: transform 0.2s ease;
+  border: 2px solid transparent;
+  transition: border 0.2s ease;
 }
 
 .thumbnails img:hover {
-  transform: scale(1.05);
+  border-color: #007bff;
 }
+
 
 /* MODAL IMAGE POPUP */
 .modalOverlay {
@@ -107,11 +121,12 @@
 }
 
 .modalMainImage {
-  width: 100%;
-  max-width: 700px;
-  height: auto;
-  border-radius: 12px;
+  width: 120%;
+  max-width: 600px;
+  height: 400px;
   object-fit: contain;
+  border-radius: 12px;
+  background-color: #ffffff; /* optional: helps if image has transparency */
 }
 
 .modalThumbnails {
@@ -126,7 +141,7 @@
   width: 100px;
   height: 100px;
   object-fit: cover;
-  border-radius: 20px;
+  border-radius: 10px;
   border: 2px solid transparent;
   cursor: pointer;
   transition: transform 0.2s ease;
@@ -219,7 +234,7 @@
 }
 
 .viewDetailsBtn {
-  background-color: #0056d2;
+  background-color: #2499d7;
   color: white;
   border: none;
   padding: 10px 16px;
@@ -288,7 +303,7 @@
 }
 
 .rentBtn {
-  background: #007bff;
+  background: #2499d7;
   color: white;
 }
 

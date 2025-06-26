@@ -1,0 +1,115 @@
+.profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #b0cdf4;
+  height: 100vh;
+  position: relative;
+  border-radius: 20px;
+}
+
+.profile-card {
+  background: white;
+  padding: 2rem;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.avatar-container {
+  position: relative;
+}
+
+.avatar-icon {
+  font-size: 4rem;
+  background: #000;
+  color: #fff;
+  border-radius: 50%;
+  padding: 1rem;
+}
+
+.edit-icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  padding: 0.2rem 0.4rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.username {
+  margin-top: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
+}
+
+.form-group label {
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.form-group span {
+  font-size: 0.95rem;
+  color: #777;
+}
+
+.form-group input {
+  width: 60%;
+  padding: 0.4rem;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  outline: none;
+  font-size: 0.95rem;
+}
+
+.save-button {
+  margin-top: 1rem;
+  padding: 0.6rem;
+  background-color: #228af0;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.save-button:hover {
+  background-color: #1a6fd0;
+}

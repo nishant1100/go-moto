@@ -13,6 +13,8 @@ from django.core.mail import send_mail
 from vroom.settings import EMAIL_HOST_USER
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.views.decorators.http import require_GET
+from django.http import JsonResponse
 
 from accounts.models import IDVerification
 from accounts.models import Favourite
@@ -335,3 +337,21 @@ def contact(request):
         form = ContactForm()
 
     return render(request, 'contact.html', {'form': form})
+
+def popular_cars_api(request):
+    from .models import Car
+
+    # Get top 4 popular cars by revenue
+    popular_cars = Car.get_cars_by_revenue()[:4]
+
+    data = []
+    for car in popular_cars:
+        data.append({
+            'id': car.id,
+            'name': car.model,
+            'type': car.type,
+            'price': float(car.daily_rate),
+            'image': car.image.url if car.image else None
+        })
+
+    return JsonResponse({'cars': data})

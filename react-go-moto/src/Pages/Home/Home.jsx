@@ -1,4 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 import './Home.css';
 
 // Car and brand assets
@@ -35,8 +38,22 @@ const carList = [
 const videoSources = ['/videos/intro1.mp4', '/videos/intro2.mp4'];
 
 const Home = () => {
+const [popularCars, setPopularCars] = useState([]);
+  const navigate = useNavigate();
   const videoRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const videoSources = ['/videos/intro1.mp4', '/videos/intro2.mp4'];
+
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/api/popular-rents/')
+      .then((res) => {
+        setPopularCars(res.data.cars);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch popular cars:", err);
+      });
+  }, []);
 
   useEffect(() => {
     const videoElement = videoRef.current;
@@ -108,20 +125,22 @@ const Home = () => {
 
       {/* Popular Rents */}
       <section className="popular-rents">
-        <h2>Our popular rents</h2>
-        <div className="cars">
-          {carList.map((car, index) => (
-            <div className="car-card enhanced" key={index}>
-              <img src={car.image} alt={car.name} className="car-image" />
-              <div className="car-info">
-                <h3>{car.name}</h3>
-                <p className="price">Nrs. {car.price} <span>/Day</span></p>
-                <button className="rent-btn">Rent Now</button>
-              </div>
-            </div>
-          ))}
+  <h2>Our popular rents</h2>
+  <div className="cars">
+    {popularCars.map((car, index) => (
+      <div className="car-card enhanced" key={index}>
+        <img src={`http://127.0.0.1:8000${car.image}`} alt={car.name} className="car-image" />
+        <div className="car-info">
+          <h3>{car.name}</h3>
+          <p className="price">Nrs. {car.price} <span>/Day</span></p>
+          <button className="rent-btn" onClick={() => navigate(`/car-details/${car.id}`)}>
+            Rent Now
+          </button>
         </div>
-      </section>
+      </div>
+    ))}
+  </div>
+</section>
 
       {/* How It Works */}
       <section className="how-it-works">

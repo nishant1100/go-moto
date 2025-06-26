@@ -76,7 +76,7 @@ const RentCars = () => {
           <form>
             {/* Car Type */}
             <label className="filter-heading">Car Type</label>
-            {["Sedan", "Sports", "SUV"].map((type) => (
+            {["Sedan", "Sports", "SUV", "EV"].map((type) => (
               <label className="checkbox-label" key={type}>
                 <input
                   type="checkbox"
@@ -91,7 +91,7 @@ const RentCars = () => {
 
             {/* Location */}
             <label className="filter-heading">Location</label>
-            {["Kathmandu", "Pokhara"].map((loc) => (
+            {["Kathmandu", "Bhaktapur", "Pokhara", "Lalitpur"].map((loc) => (
               <label className="checkbox-label" key={loc}>
                 <input
                   type="checkbox"
