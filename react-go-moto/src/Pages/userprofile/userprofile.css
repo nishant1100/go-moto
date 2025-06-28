@@ -1,11 +1,12 @@
 .profile-container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   background-color: #e6f0ff;
-  height: 100vh;
-  padding: 20px;
-  font-family:'Poppins', sans-serif; ;
+  min-height: 100vh;
+  padding: 30px 20px 50px;
+  font-family:'Poppins', sans-serif;
+  box-sizing: border-box;
 }
 
 .profile-card {

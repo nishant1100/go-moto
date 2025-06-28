@@ -68,12 +68,16 @@ const Navbar = () => {
           </Link>
         </div>
         <ul className="nav-links">
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/rent-cars">Rent Car</Link></li>
-          <li><Link to="/blog">BLOG</Link></li>
-          <li><Link to="/terms">Terms & Conditions</Link></li>
-          <li><Link to="/contact">Contact Us</Link></li>
-        </ul>
+  <li><Link to="/">Home</Link></li>
+  <li><Link to="/rent-cars">Rent Car</Link></li>
+  <li><Link to="/blog">BLOG</Link></li>
+  {user ? (
+    <li><Link to="/my-rents">My Rents</Link></li>
+  ) : (
+    <li><Link to="/terms">Terms & Conditions</Link></li>
+  )}
+  <li><Link to="/contact">Contact Us</Link></li>
+</ul>
 
         <div className="signin-btn">
           {!user ? (
@@ -93,18 +97,13 @@ const Navbar = () => {
               {dropdownOpen && (
                 <ul className="dropdown-menu">
                   <li>
-                    <Link to="/profile" onClick={() => setDropdownOpen(false)}>
-                      Profile
-                    </Link>
+                  <Link to="/user-profile" onClick={() => setDropdownOpen(false)}>
+                    Profile
+                  </Link>
                   </li>
                   <li>
                     <Link to="/favorites" onClick={() => setDropdownOpen(false)}>
                       Favorites
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/manage-listings" onClick={() => setDropdownOpen(false)}>
-                      Manage Listings
                     </Link>
                   </li>
                   <li>

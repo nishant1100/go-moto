@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import './Login.css';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './Login.css';
 
 const Login = () => {
     const [showForgotPassword, setShowForgotPassword] = useState(false);
@@ -23,26 +23,27 @@ const Login = () => {
         setError('');
     };
 
-        const handleSubmit = async (e) => {
-            e.preventDefault();
-            try {
-                const response = await axios.post('http://127.0.0.1:8000/api/login/', formData);
-                const user = response.data.user;
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('http://127.0.0.1:8000/api/login/', formData);
+            const user = response.data.user;
+            console.log(response.data);
 
-                // Save to localStorage (or sessionStorage)
-                localStorage.setItem('user', JSON.stringify(user));
-                window.dispatchEvent(new Event('storageChanged'));  // <-- notify others
+            // Save to localStorage (or sessionStorage)
+            localStorage.setItem('user', JSON.stringify(user));
+            window.dispatchEvent(new Event('storageChanged'));  // <-- notify others
 
-                alert(response.data.message);
-                navigate('/Home');
-            } catch (err) {
-                if (err.response?.data?.error) {
-                    setError(err.response.data.error);
-                } else {
-                    setError('Login failed. Try again later.');
-                }
+            alert(response.data.message);
+            navigate('/Home');
+        } catch (err) {
+            if (err.response?.data?.error) {
+                setError(err.response.data.error);
+            } else {
+                setError('Login failed. Try again later.');
             }
-        };
+        }
+    };
 
 
     return (

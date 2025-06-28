@@ -4,7 +4,6 @@ from .models import Car, CarImage
 from decimal import Decimal
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages  # Import messages framework
 from django.shortcuts import redirect
 from .models import Booking, Car
 from django.http import JsonResponse
@@ -12,9 +11,18 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
 from vroom.settings import EMAIL_HOST_USER
 from django.urls import reverse
-from django.http import HttpResponseRedirect
 from django.views.decorators.http import require_GET
 from django.http import JsonResponse
+from django.core.mail import send_mail
+from django.shortcuts import render
+from .forms import ContactForm
+from accounts.models import CustomUser
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
+from decimal import Decimal
+from .models import Car, Booking
 
 from accounts.models import IDVerification
 from accounts.models import Favourite
@@ -208,6 +216,51 @@ def book_car(request, car_id):
         form = CarSearchForm()
     return render(request, 'booking.html', {'car': car,'form':form, 'id_verification_status': id_verification_status, 'reviews': approved_reviews})
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def api_book_car(request, car_id):
+    car = get_object_or_404(Car, id=car_id)
+    
+    # Check if already booked
+    if Booking.objects.filter(user=request.user, car=car, status='pending').exists():
+        return Response({"error": "You have already booked this car."}, status=400)
+
+    pickup_datetime = request.data.get('pickup_datetime')
+    dropoff_datetime = request.data.get('dropoff_datetime')
+
+    if not pickup_datetime or not dropoff_datetime:
+        return Response({"error": "Pickup and dropoff datetime required."}, status=400)
+    
+    # Parse datetime strings to datetime objects
+    from django.utils.dateparse import parse_datetime
+    pickup_dt = parse_datetime(pickup_datetime)
+    dropoff_dt = parse_datetime(dropoff_datetime)
+    if not pickup_dt or not dropoff_dt:
+        return Response({"error": "Invalid datetime format."}, status=400)
+    
+    # Calculate duration and price
+    duration_hours = (dropoff_dt - pickup_dt).total_seconds() / 3600
+    total_price = round(duration_hours * car.hourly_rate, 2)
+
+    # Create booking record
+    booking = Booking.objects.create(
+        user=request.user,
+        car=car,
+        pickup_datetime=pickup_dt,
+        dropoff_datetime=dropoff_dt,
+        total_price=total_price,
+        status='pending',
+        payment_method=request.data.get('payment_method', 'unknown')
+    )
+
+    return Response({
+        "booking_id": booking.id,
+        "car": car.name,
+        "total_price": total_price,
+        "status": booking.status,
+        "message": "Booking created successfully."
+    }, status=201)
+
 @login_required(login_url='login')
 def view_bookings(request):
     bookings = Booking.objects.filter(user=request.user).order_by('-booking_date')
@@ -307,10 +360,7 @@ def submit_review(request, car_id):
     return render(request, 'submit_review.html', {'form': form, 'car': car})  # Pass the car to the template
 
 
-from django.core.mail import send_mail
-from django.shortcuts import render
-from .forms import ContactForm
-from accounts.models import CustomUser
+
 
 def contact(request):
     if request.method == 'POST':
