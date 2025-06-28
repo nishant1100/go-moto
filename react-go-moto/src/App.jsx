@@ -10,6 +10,7 @@ import SignUp from '@/Pages/Register/Signup';
 import CarDetails from "./Pages/CarDetails/details";
 import RentSummary from './Pages/Rent/RentSummary'; 
 import RentCars from './Pages/RentCar/rentcar';
+import UserProfile from './Pages/userprofile/userprofile';
 
 import './App.css';
 
@@ -28,6 +29,7 @@ function App() {
             <Route path="/car-details/:id" element={<CarDetails />} />
             <Route path="/rent-summary/:id" element={<RentSummary />} /> 
             <Route path="/blog" element={<Blog />} />
+            <Route path="/user-profile" element={<UserProfile />} />
           </Routes>
         </main>
         <Footer />
@@ -37,3 +39,5 @@ function App() {
 }
 
 export default App;
+
+

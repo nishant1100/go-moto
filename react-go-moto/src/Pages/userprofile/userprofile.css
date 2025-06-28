@@ -2,30 +2,123 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #b0cdf4;
+  background-color: #e6f0ff;
   height: 100vh;
-  position: relative;
-  border-radius: 20px;
+  padding: 20px;
+  font-family:'Poppins', sans-serif; ;
 }
 
 .profile-card {
-  background: white;
-  padding: 2rem;
+  background: #fff;
   width: 100%;
-  max-width: 400px;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  position: relative;
+  max-width: 800px;
+  padding: 2.5rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
 }
 
-.close-btn {
+.profile-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.avatar-section {
+  position: relative;
+  display: inline-block;
+}
+
+.avatar-label {
+  position: relative;
+  display: inline-block;
+}
+
+.avatar-image {
+  width: 95px;
+  height: 95px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #f9fafa;
+}
+
+.edit-avatar {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  background: transparent;
-  border: none;
-  font-size: 1.5rem;
+  bottom: 6px;
+  right: 6px;
+  font-size: 0.8rem;
+  background: #2499d7;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  padding: 4px 6px;
   cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.username {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 0.95rem;
+  color: #000000;
+  margin-bottom: 0.4rem;
+  font-weight: 500;
+}
+
+.form-group input {
+    background-color: #76b5d75a;
+    max-width: 600px;
+  padding: 0.55rem 0.95rem;
+  font-size: 0.95rem;
+  border: 1px solid #090909;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+
+.save-button {
+    width: 20%;
+  padding: 0.55rem;
+  background-color: #007bff;
+  color: white;
+  font-weight: regular;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.save-button:hover {
+  background-color: #0056c4;
+}
+
+.cover-section {
+  background: linear-gradient(135deg, #228af0, #6f42c1);
+  height: 150px;
+  width: 100%;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
 }
 
 .profile-header {
@@ -33,83 +126,54 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: 2rem;
-}
-
-.avatar-container {
   position: relative;
+  z-index: 1;
+  padding-top: 100px;
 }
 
-.avatar-icon {
-  font-size: 4rem;
-  background: #000;
-  color: #fff;
+.avatar-section {
+  position: relative;
+  margin-top: -60px; /* pull the image over the cover */
+}
+
+.avatar-border {
+  background: linear-gradient(45deg, #6f42c1, #228af0);
+  padding: 4px;
   border-radius: 50%;
-  padding: 1rem;
+  display: inline-block;
 }
 
-.edit-icon {
+.avatar-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  background: white;
+}
+
+.edit-avatar {
   position: absolute;
   bottom: 0;
   right: 0;
+  font-size: 0.8rem;
   background: white;
   border: 1px solid #ccc;
   border-radius: 50%;
-  padding: 0.2rem 0.4rem;
-  font-size: 0.8rem;
+  padding: 4px 6px;
   cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .username {
-  margin-top: 0.5rem;
-  font-size: 1.1rem;
+  margin-top: 0.8rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.verify-note {
+  color: #b30000;
+  font-size: 0.85rem;
   font-weight: 500;
+  margin-top: -10px;
+  margin-bottom: 1rem;
 }
 
-.profile-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-}
-
-.form-group {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 0.5rem;
-}
-
-.form-group label {
-  font-size: 0.95rem;
-  color: #333;
-}
-
-.form-group span {
-  font-size: 0.95rem;
-  color: #777;
-}
-
-.form-group input {
-  width: 60%;
-  padding: 0.4rem;
-  border: none;
-  border-bottom: 1px solid #ccc;
-  outline: none;
-  font-size: 0.95rem;
-}
-
-.save-button {
-  margin-top: 1rem;
-  padding: 0.6rem;
-  background-color: #228af0;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.save-button:hover {
-  background-color: #1a6fd0;
-}
