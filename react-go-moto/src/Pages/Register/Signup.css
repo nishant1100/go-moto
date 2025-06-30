@@ -138,11 +138,29 @@ html, body, #root {
 .checkbox-wrapper {
   display: flex;
   align-items: center;
-  margin-bottom: 15px;
+  gap: 8px; /* Adjust spacing between checkbox and label */
+  margin-top: 1px;
+  margin-bottom: 20px;
 }
-.checkbox-wrapper input {
-  margin-right: 5px;
+
+.checkbox-wrapper input[type="checkbox"] {
+  align-items: right;
+  margin: 0;
+  width: 16px;
+  height: 16px;
+  accent-color: #022c43;
 }
+
+.checkbox-wrapper label {
+  align-items: right;
+  font-size: 0.9rem;
+  color: #022c43;
+  cursor: pointer;
+  margin: 0; 
+  white-space: nowrap;
+}
+
+
 
 
 /* Responsive */

@@ -137,14 +137,14 @@ const Signup = () => {
 
             {/* Show Passwords Toggle */}
             <div className="checkbox-wrapper">
-              <input
-                type="checkbox"
-                id="showPasswords"
-                checked={showPasswords}
-                onChange={() => setShowPasswords(!showPasswords)}
-              />
-              <label htmlFor="showPasswords">Show Passwords</label>
-            </div>
+            <input
+              type="checkbox"
+              id="showPasswords"
+              checked={showPasswords}
+              onChange={() => setShowPasswords(!showPasswords)}
+            />
+            <label htmlFor="showPasswords">Show Password</label>
+          </div>
 
             <button type="submit">Register</button>
 

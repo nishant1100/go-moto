@@ -32,6 +32,7 @@ const Login = () => {
 
             // Save to localStorage (or sessionStorage)
             localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('loggedIn', 'true');
             window.dispatchEvent(new Event('storageChanged'));  // <-- notify others
 
             alert(response.data.message);

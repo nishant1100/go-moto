@@ -212,16 +212,28 @@ const CarDetails = () => {
           )}
 
           <div className={styles.btnWrapper}>
-            <button className={styles.rentBtn}
-              onClick={() =>
-                navigate(`/rent-summary/${car.id}`, {
-                  state: {
-                    carId: car.id,
-                    dateRange: range,
-                  },
-                })
-              }
-            >Rent a car</button>
+            <button
+  className={styles.rentBtn}
+  onClick={() => {
+    const user = localStorage.getItem('user');
+    if (!user) {
+      alert('Please log in to rent a car.');
+      navigate('/login'); // Optional: redirect to login page
+      return;
+    }
+
+    // Proceed if logged in
+    navigate(`/rent-summary/${car.id}`, {
+      state: {
+        carId: car.id,
+        dateRange: range,
+      },
+    });
+  }}
+>
+  Rent a car
+</button>
+
             <button className={styles.backBtn} onClick={() => navigate(-1)}>
               Back
             </button>

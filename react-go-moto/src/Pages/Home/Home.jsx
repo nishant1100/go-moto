@@ -35,7 +35,7 @@ const carList = [
 ];
 
 // Video sources (placed in /public/videos/)
-const videoSources = ['/videos/intro1.mp4', '/videos/intro2.mp4'];
+const videoSources = ['/videos/intro1.mp4', '/videos/intro2.mp4', '/videos/intro3.mp4'];
 
 const Home = () => {
 const [popularCars, setPopularCars] = useState([]);
@@ -43,7 +43,7 @@ const [popularCars, setPopularCars] = useState([]);
   const videoRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const videoSources = ['/videos/intro1.mp4', '/videos/intro2.mp4'];
+  const videoSources = ['/videos/intro1.mp4', '/videos/intro2.mp4','/videos/intro3.mp4'];
 
   useEffect(() => {
     axios.get('http://127.0.0.1:8000/api/popular-rents/')
@@ -81,7 +81,7 @@ const [popularCars, setPopularCars] = useState([]);
           loop={false}
           playsInline
         />
-        <div className="white-overlay"></div>  {/* <- add this line */}
+        <div className="white-overlay"></div> 
         <div className="hero-overlay">
           <div className="hero-text">
             <h1>We Have Prepared a Car For Your Trip</h1>
@@ -145,14 +145,8 @@ const [popularCars, setPopularCars] = useState([]);
       {/* How It Works */}
       <section className="how-it-works">
         <h3>How it works</h3>
-        <div className="flow-container">
-          <div className="flow-step">🧑‍✈️ SELECT</div>
-          <div className="arrow">➡️</div>
-          <div className="flow-step">📅 BOOK</div>
-          <div className="arrow">➡️</div>
-          <div className="flow-step">🚗 DRIVE</div>
-          <div className="arrow">➡️</div>
-          <div className="flow-step">🔁 RETURN</div>
+        <div className="how-it-works-image">
+          <img src="/src/assets/howit.png" alt="How it works flow" />
         </div>
       </section>
 
@@ -161,7 +155,7 @@ const [popularCars, setPopularCars] = useState([]);
       <section className="advantages">
         <h3>Why Choose Us?</h3>
         <div className="advantage-list">
-          {['Easy Rent', 'Premium Quality', 'Professional Agent', 'Car Safety', 'Refund', 'Live Monitoring'].map((text, i) => (
+          {['Easy Rent', 'Premium Quality', 'Professional Agent', 'Car Safety', 'Refund'].map((text, i) => (
             <div className="advantage" key={i}>{text}</div>
           ))}
         </div>
@@ -169,24 +163,27 @@ const [popularCars, setPopularCars] = useState([]);
 
       {/* Achievements */}
       <section className="achievements">
-        <h3 className="achievement-title">Our achivements</h3>
-        <div className="achievement">
-          <h4>CAR RENTED</h4>
-          <p className="highlight">240</p>
-        </div>
-        <div className="achievement">
-          <h4>SATISFIED CLIENTS</h4>
-          <p className="highlight">235</p>
-        </div>
-        <div className="achievement">
-          <h4>YEARS EXPERIENCE</h4>
-          <p className="highlight">12+</p>
-        </div>
-        <div className="achievement">
-          <h4>CAR TYPES</h4>
-          <p className="highlight">18</p>
-        </div>
-      </section>
+  <h3 className="achievement-title">Our Achievements</h3>
+  <div className="achievement-list">
+    <div className="achievement">
+      <h4>CAR RENTED</h4>
+      <p className="highlight">240</p>
+    </div>
+    <div className="achievement">
+      <h4>SATISFIED CLIENTS</h4>
+      <p className="highlight">235</p>
+    </div>
+    <div className="achievement">
+      <h4>YEARS EXPERIENCE</h4>
+      <p className="highlight">12+</p>
+    </div>
+    <div className="achievement">
+      <h4>CAR TYPES</h4>
+      <p className="highlight">18</p>
+    </div>
+  </div>
+</section>
+
 
 
       {/* Contact Section */}
