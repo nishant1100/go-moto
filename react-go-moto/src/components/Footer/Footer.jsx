@@ -1,6 +1,6 @@
 import React from 'react';
 import './Footer.css';
-import logo from '../../assets/gomoto_logo.png'; // Update path if needed
+import logo from '../../assets/gomoto_logo.png'; 
 
 const Footer = () => {
   return (

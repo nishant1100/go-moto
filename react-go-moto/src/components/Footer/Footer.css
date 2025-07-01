@@ -44,13 +44,13 @@
 }
 
 .footer-logo {
-  max-width: 150px;
+  max-width: 190px;
 }
 
 .logo-column {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: left;
 }
 
 @media (max-width: 768px) {

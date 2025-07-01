@@ -7,7 +7,7 @@ import './Home.css';
 // Car and brand assets
 import blog1 from '../../assets/blog1.jpg';
 import blog2 from '../../assets/blog2.jpg';
-import blog3 from '../../assets/blog3.png';
+import blog4 from '../../assets/blog4.jpg';
 import deepal from '../../assets/deepal.jpeg';
 import honda1 from '../../assets/honda.png';
 import hyundai1 from '../../assets/hyundai.png';
@@ -155,11 +155,21 @@ const [popularCars, setPopularCars] = useState([]);
       <section className="advantages">
         <h3>Why Choose Us?</h3>
         <div className="advantage-list">
-          {['Easy Rent', 'Premium Quality', 'Professional Agent', 'Car Safety', 'Refund'].map((text, i) => (
-            <div className="advantage" key={i}>{text}</div>
+          {[
+            { text: 'Easy Rent', gif: '/src/assets/easy1.gif' },
+            { text: 'On Time Services', gif: '/src/assets/time.gif' },
+            { text: 'Well Clean Car', gif: '/src/assets/clean.gif' },
+            { text: 'Customer Statifactions', gif: '/src/assets/customer.gif' },
+            { text: 'Best Price Gaurantee', gif: '/src/assets/price.gif' }
+          ].map((item, i) => (
+            <div className="advantage" key={i}>
+              <img src={item.gif} alt={item.text} className="advantage-icon" />
+              {item.text}
+            </div>
           ))}
         </div>
       </section>
+
 
       {/* Achievements */}
       <section className="achievements">
@@ -214,7 +224,7 @@ const [popularCars, setPopularCars] = useState([]);
       <section className="blog">
         <h3>Latest blog posts & news</h3>
         <div className="blog-cards">
-          {[blog1, blog2, blog3].map((img, idx) => (
+          {[blog1, blog2, blog4].map((img, idx) => (
             <div className="blog-card" key={idx}>
               <img src={img} alt={`Blog ${idx + 1}`} />
               <h4>
@@ -233,7 +243,7 @@ const [popularCars, setPopularCars] = useState([]);
 
       {/* Newsletter */}
       <section className="newsletter">
-        <h3>SUBSCRIBE OUR NEWS</h3>
+        <h3>Suscribe our news</h3>
         <p>We can help you provide the latest news whenever and wherever you are via email</p>
         <div className="subscribe">
           <input type="email" placeholder="example@gmail.com" />

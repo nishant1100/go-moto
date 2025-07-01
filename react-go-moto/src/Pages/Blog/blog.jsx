@@ -2,7 +2,7 @@ import React from "react";
 import "./blog.css";
 import trending1 from "../../assets/blog1.jpg";
 import trending2 from "../../assets/blog2.jpg";
-import trending3 from "../../assets/blog3.png";
+import trending3 from "../../assets/blog4.jpg";
 import post1 from "../../assets/post1.jpg";
 import post2 from "../../assets/post2.jpeg";
 import { User } from "lucide-react";

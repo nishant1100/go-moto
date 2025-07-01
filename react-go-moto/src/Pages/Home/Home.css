@@ -165,6 +165,8 @@
 .popular-rents h2 {
   font-size: 2rem;
   color: #034fa1;
+  margin-bottom: 1rem;
+  font-weight: 600;
 }
 
 .popular-rents .subtitle {
@@ -258,11 +260,11 @@
 
 /* ===== WHY CHOOSE US ===== */
 .advantages {
-  max-width: 1000px;
-  margin: 0 auto;
+  max-width: 1500px;
+  margin-top: -3px;
   padding: 40px 20px;
   text-align: center;
-  border-radius: 20px;
+  border-radius: 15px;
 }
 
 .advantages h3 {
@@ -273,14 +275,16 @@
 }
 
 .advantage-list {
+  margin-top: -25px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 20px;
+  padding: 5px 50px;
 }
 
 .advantage {
   background-color: #ffffff;
-  padding: 20px 15px;
+  padding: 20px 5px;
   border-radius: 15px;
   font-size: 1rem;
   color: #022c43;
@@ -293,7 +297,12 @@
   transform: translateY(-5px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
 }
-
+.advantage-icon {
+  width: 50px;
+  height: 50px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
 
 /* ===== ACHIEVEMENTS ===== */
 .achievements {
@@ -440,20 +449,28 @@
   text-align: center;
   padding: 40px;
 }
-
+.newsletter h3 {
+  font-size: 2rem;
+  color: #034fa1;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
 .subscribe {
   margin-top: 20px;
 }
 
 .subscribe input {
+  border-radius: 8px;
+  border-color: #ffffff;
+  background-color: #ffffff;
   padding: 10px;
   width: 300px;
   max-width: 90%;
 }
 
 .subscribe button {
-  padding: 10px 20px;
-  background: #007bff;
+  padding: 8px 20px;
+  background-color: #2499d7;;
   color: white;
   border: none;
   margin-left: 10px;

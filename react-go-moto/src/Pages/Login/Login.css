@@ -272,3 +272,10 @@ body,
 .send-btn:hover {
   background-color: #0f66c2;
 }
+.status-message {
+  margin-top: 10px;
+  color: #00cc66;
+  font-weight: bold;
+  text-align: center;
+}
+
