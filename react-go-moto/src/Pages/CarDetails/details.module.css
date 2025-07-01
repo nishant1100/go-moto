@@ -162,89 +162,6 @@
   border: none;
 }
 
-/* Recommendation Cards */
-.cardGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 24px;
-  align-items: stretch;
-  margin-top: 20px;
-}
-
-.carRecommendationCard {
-  background: #f9f9f9;
-  border-radius: 16px;
-  padding: 16px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-  transition: transform 0.3s ease;
-}
-
-.carRecommendationCard:hover {
-  transform: translateY(-5px);
-}
-
-.carRecommendationCard img {
-  width: 100%;
-  border-radius: 8px;
-  margin-bottom: 12px;
-}
-
-.carTitleRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: 600;
-  font-size: 16px;
-  margin-bottom: 6px;
-}
-
-.pricePerDay {
-  font-weight: 500;
-  color: #007bff;
-}
-
-.pricePerDay span {
-  font-size: 0.85rem;
-  color: #666;
-}
-
-.carMeta {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.9rem;
-  color: #444;
-  margin-bottom: 6px;
-}
-
-.availability {
-  font-size: 0.95rem;
-  font-weight: 600;
-  margin-bottom: 12px;
-}
-
-.available {
-  color: green;
-}
-
-.unavailable {
-  color: red;
-}
-
-.viewDetailsBtn {
-  background-color: #2499d7;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.95rem;
-  cursor: pointer;
-}
-
-
 /* ====== Right Side ====== */
 .specsGrid {
   display: grid;
@@ -378,9 +295,13 @@
   transition: transform 0.2s ease-in-out;
 }
 
+.carRecommendationCard:hover {
+  transform: translateY(-5px);
+}
 .carRecommendationCard img {
   width: 100%;
-  height: auto;
+  height: 180px; /* or 180px based on your design */
+  object-fit: cover;
   border-radius: 12px;
   margin-bottom: 16px;
 }
@@ -396,6 +317,9 @@
   font-size: 1rem;
   font-weight: 600;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .pricePerDay {

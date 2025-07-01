@@ -88,7 +88,7 @@ const [popularCars, setPopularCars] = useState([]);
             <p>We have many types of cars that are ready for your trip anywhere and anytime.</p>
             <div className="hero-buttons">
               <button className="btn-primary">Get In Touch</button>
-              <button className="btn-outline">Our Car</button>
+              <button className="btn-outline">Our Cars</button>
             </div>
           </div>
         </div>
@@ -144,7 +144,7 @@ const [popularCars, setPopularCars] = useState([]);
 
       {/* How It Works */}
       <section className="how-it-works">
-        <h3>How it works</h3>
+        <h3>How Go Moto works</h3>
         <div className="how-it-works-image">
           <img src="/src/assets/howit.png" alt="How it works flow" />
         </div>
