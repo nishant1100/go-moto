@@ -12,6 +12,8 @@ import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { useNavigate, useParams } from "react-router-dom";
 import styles from "./details.module.css";
+import { toast } from 'react-toastify';
+
 
 const CarDetails = () => {
   const { id } = useParams();
@@ -214,15 +216,25 @@ const CarDetails = () => {
           <div className={styles.btnWrapper}>
             <button
   className={styles.rentBtn}
+  disabled={!car.available}
+  style={{
+    opacity: car.available ? 1 : 0.5,
+    cursor: car.available ? "pointer" : "not-allowed"
+  }}
   onClick={() => {
     const user = localStorage.getItem('user');
-    if (!user) {
-      alert('Please log in to rent a car.');
-      navigate('/login'); // Optional: redirect to login page
+
+    if (!car.available) {
+      toast.error("This car is currently unavailable!");
       return;
     }
 
-    // Proceed if logged in
+    if (!user) {
+      toast.warning("Please log in to rent a car.");
+      navigate('/login');
+      return;
+    }
+
     navigate(`/rent-summary/${car.id}`, {
       state: {
         carId: car.id,
@@ -233,6 +245,8 @@ const CarDetails = () => {
 >
   Rent a car
 </button>
+
+
 
             <button className={styles.backBtn} onClick={() => navigate(-1)}>
               Back
