@@ -53,6 +53,43 @@ const BlogPage = () => {
     },
   ];
 
+  // Content for each trending topic
+  const trendingPosts = [
+    {
+      img: trending1,
+      title: "How To Choose The Right Car",
+      author: "Editor",
+      date: "12 April 2024",
+      time: "2 Min Read",
+      content: `
+        <p><strong>How To Choose The Right Car</strong></p>
+        <p>Choosing the right car depends on your lifestyle, needs, and budget. Consider how often you drive, fuel economy, seating capacity, cargo space, and whether you need features like all-wheel drive or advanced infotainment. For city driving, compact cars might be ideal; for families, consider SUVs or sedans. Always test drive and compare reviews before making a purchase.</p>
+      `,
+    },
+    {
+      img: trending2,
+      title: "Enjoy Speed, Choice & Total Control",
+      author: "Editor",
+      date: "12 April 2024",
+      time: "2 Min Read",
+      content: `
+        <p><strong>Enjoy Speed, Choice & Total Control</strong></p>
+        <p>Modern car rentals and ownership programs give you flexibility to pick the perfect vehicle for any situation—whether you're craving performance, efficiency, or luxury. Speed doesn’t just mean fast engines; it also means fast booking, instant upgrades, and adaptive driving modes that put you in control. Explore options that match your lifestyle and driving mood.</p>
+      `,
+    },
+    {
+      img: trending3,
+      title: "Which Plan Is Right For Me?",
+      author: "Editor",
+      date: "12 April 2024",
+      time: "2 Min Read",
+      content: `
+        <p><strong>Which Plan Is Right For Me?</strong></p>
+        <p>Choosing the right plan—whether for leasing, renting, or purchasing—comes down to how frequently you use the vehicle, your budget, and long-term goals. Leasing offers flexibility and lower monthly costs, while purchasing gives full ownership. Evaluate insurance packages, mileage limits, and maintenance services included in each plan before deciding.</p>
+      `,
+    },
+  ];
+
   return (
     <section className="blogPage">
       <h1 className="header">Blog posts & news</h1>
@@ -60,40 +97,15 @@ const BlogPage = () => {
       <div className="trendingSection">
         <h2>Trending blogs</h2>
         <div className="trendingGrid">
-          {[trending1, trending2, trending3].map((img, idx) => (
+          {trendingPosts.map((post, idx) => (
             <div className="trendingCard" key={idx}>
-              <img src={img} alt={`trend-${idx}`} />
-              <h4>
-                {[
-                  "How To Choose The Right Car",
-                  "Enjoy Speed, Choice & Total Control",
-                  "Which plan is right for me?",
-                ][idx]}
-              </h4>
-              <p>News / 12 April 2024</p>
+              <img src={post.img} alt={`trend-${idx}`} />
+              <h4>{post.title}</h4>
+              <p>News / {post.date}</p>
               <div className="readMoreWrapper">
-                <button className="trreadBtn" onClick={() => openModal({
-                  img,
-                  title: [
-                    "How To Choose The Right Car",
-                    "Enjoy Speed, Choice & Total Control",
-                    "Which plan is right for me?",
-                  ][idx],
-                  author: "Editor",
-                  date: "12 April 2024",
-                  time: "2 Min Read",
-                  content: `Choosing the right car is a significant decision that depends on various personal and practical factors.
-                   Whether you are a first-time buyer or looking to upgrade your vehicle, the key is to identify your needs and match them with what the market offers. 
-                   Start by considering how you plan to use the car. For example, if you have a long daily commute, prioritize fuel efficiency and comfort. 
-                   If you often travel with family or need more space, look into SUVs or sedans with ample legroom and trunk space. 
-                   On the other hand, those who enjoy driving or need more power for rough terrains may benefit from a vehicle with a stronger engine, such as a four-wheel drive or crossover.
-                   Budget is another critical factor. It’s important to not only consider the upfront cost of the vehicle but also the ongoing expenses such as fuel, insurance, taxes, and maintenance. 
-                   Buying within your financial means ensures that your vehicle doesn't become a burden in the long run. 
-                   It's also wise to compare both new and used car options—while new cars offer warranties and the latest technology, used cars can be more affordable and still reliable if well maintained.
-                   Lastly, always take a test drive before making your final decision. This gives you the opportunity to evaluate how the car feels, how responsive it is, and whether it suits your driving style. 
-                   Researching customer reviews, reliability ratings, and resale value is also essential for long-term satisfaction.
-                  Choosing the right car isn't just about appearance or brand—it’s about finding the perfect balance of functionality, comfort, and cost for your lifestyle.`,
-                })}>Continue reading</button>
+                <button className="trreadBtn" onClick={() => openModal(post)}>
+                  Continue reading
+                </button>
               </div>
             </div>
           ))}
@@ -117,7 +129,9 @@ const BlogPage = () => {
                 <span> • {post.time}</span>
               </div>
               <p>{post.content.slice(0, 150)}...</p>
-              <button className="readBtn" onClick={() => openModal(post)}>Continue reading</button>
+              <button className="readBtn" onClick={() => openModal(post)}>
+                Continue reading
+              </button>
             </div>
           </div>
         ))}
@@ -125,28 +139,32 @@ const BlogPage = () => {
 
       {/* ✅ Modal Popup */}
       {modalData && (
-  <div className="modalOverlay" onClick={closeModal}>
-    <div className="modalContent" onClick={(e) => e.stopPropagation()}>
-      <button className="closeModal" onClick={closeModal}>×</button>
+        <div className="modalOverlay" onClick={closeModal}>
+          <div className="modalContent" onClick={(e) => e.stopPropagation()}>
+            <button className="closeModal" onClick={closeModal}>
+              ×
+            </button>
 
-      {/* Image at top */}
-      <img src={modalData.img} alt="modal" className="modalImageTop" />
+            {/* Image at top */}
+            <img src={modalData.img} alt="modal" className="modalImageTop" />
 
-      {/* Text content below image */}
-      <div className="textContent">
-        <h2>{modalData.title}</h2>
-        <div className="meta">
-          <User size={16} />
-          <span>{modalData.author}</span>
-          <span> | {modalData.date}</span>
-          <span> • {modalData.time}</span>
+            {/* Text content below image */}
+            <div className="textContent">
+              <h2>{modalData.title}</h2>
+              <div className="meta">
+                <User size={16} />
+                <span>{modalData.author}</span>
+                <span> | {modalData.date}</span>
+                <span> • {modalData.time}</span>
+              </div>
+              <div
+                className="modalHtmlContent"
+                dangerouslySetInnerHTML={{ __html: modalData.content }}
+              />
+            </div>
+          </div>
         </div>
-        <p>{modalData.content}</p>
-      </div>
-    </div>
-  </div>
-)}
-
+      )}
     </section>
   );
 };

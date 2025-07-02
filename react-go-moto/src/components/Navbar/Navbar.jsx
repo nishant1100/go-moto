@@ -102,9 +102,6 @@ const Navbar = () => {
                   </Link>
                   </li>
                   <li>
-                    <Link to="/favorites" onClick={() => setDropdownOpen(false)}>
-                      Favorites
-                    </Link>
                   </li>
                   <li>
                     <button
