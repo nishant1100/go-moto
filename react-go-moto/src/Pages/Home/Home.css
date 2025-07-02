@@ -8,7 +8,7 @@
 /* ===== HERO VIDEO SECTION ===== */
 .hero-video-wrapper {
   position: relative;
-  height: 75vh;
+  height: 65vh;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -50,13 +50,13 @@
 }
 
 .hero-text h1 {
-  font-size: 3rem;
+  font-size: 2.8rem;
   font-weight: bold;
   margin-bottom: 1rem;
 }
 
 .hero-text p {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   margin-bottom: 2rem;
   max-width: 600px;
 }
@@ -76,23 +76,24 @@
 }
 
 .btn-primary {
-  background-color: #007bff;
+  background-color: #2499d7;
   color: white;
   border: none;
 }
 
 .btn-primary:hover {
-  background-color: #0056b3;
+  background-color: #a1c5ee;
 }
 
 .btn-outline {
   background: transparent;
-  border: 2px solid #007bff;
-  color: #007bff;
+  border: 2px solid #2499d7;
+  color: #2499d7;
 }
 
 .btn-outline:hover {
-  background-color: #007bff;
+  border-color: #a1c5ee7b;
+  background-color: #a1c5ee7b;
   color: white;
 }
 
@@ -101,15 +102,16 @@
   display: flex;
   justify-content: space-around;
   background-color: #a1c5ee7b;
-  padding: 6px 6px;
+  padding: 2px 6px;
   text-align: center;
 }
 
 .features .feature h4 {
-  margin-top: 10px;
+  margin-top: 3px;
 }
 
 .feature-icon {
+  margin-top: 1px;
   width: 40px;
   height: 40px;
   object-fit: contain;

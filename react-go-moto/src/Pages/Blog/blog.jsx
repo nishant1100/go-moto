@@ -58,33 +58,30 @@ const BlogPage = () => {
     {
       img: trending1,
       title: "How To Choose The Right Car",
-      author: "Editor",
-      date: "12 April 2024",
+      author: "Sishir",
+      date: "2 July 2025",
       time: "2 Min Read",
       content: `
-        <p><strong>How To Choose The Right Car</strong></p>
         <p>Choosing the right car depends on your lifestyle, needs, and budget. Consider how often you drive, fuel economy, seating capacity, cargo space, and whether you need features like all-wheel drive or advanced infotainment. For city driving, compact cars might be ideal; for families, consider SUVs or sedans. Always test drive and compare reviews before making a purchase.</p>
       `,
     },
     {
       img: trending2,
       title: "Enjoy Speed, Choice & Total Control",
-      author: "Editor",
-      date: "12 April 2024",
+      author: "Roshan",
+      date: "1l July 2025",
       time: "2 Min Read",
       content: `
-        <p><strong>Enjoy Speed, Choice & Total Control</strong></p>
         <p>Modern car rentals and ownership programs give you flexibility to pick the perfect vehicle for any situation—whether you're craving performance, efficiency, or luxury. Speed doesn’t just mean fast engines; it also means fast booking, instant upgrades, and adaptive driving modes that put you in control. Explore options that match your lifestyle and driving mood.</p>
       `,
     },
     {
       img: trending3,
       title: "Which Plan Is Right For Me?",
-      author: "Editor",
-      date: "12 April 2024",
+      author: "Manish",
+      date: "12 June 2025",
       time: "2 Min Read",
       content: `
-        <p><strong>Which Plan Is Right For Me?</strong></p>
         <p>Choosing the right plan—whether for leasing, renting, or purchasing—comes down to how frequently you use the vehicle, your budget, and long-term goals. Leasing offers flexibility and lower monthly costs, while purchasing gives full ownership. Evaluate insurance packages, mileage limits, and maintenance services included in each plan before deciding.</p>
       `,
     },
@@ -101,7 +98,7 @@ const BlogPage = () => {
             <div className="trendingCard" key={idx}>
               <img src={post.img} alt={`trend-${idx}`} />
               <h4>{post.title}</h4>
-              <p>News / {post.date}</p>
+              <p>{post.date}</p>
               <div className="readMoreWrapper">
                 <button className="trreadBtn" onClick={() => openModal(post)}>
                   Continue reading

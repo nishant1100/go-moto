@@ -68,6 +68,11 @@ const [popularCars, setPopularCars] = useState([]);
     return () => videoElement.removeEventListener('ended', handleVideoEnd);
   }, [currentIndex]);
 
+  const goToRentCars = () => {
+  navigate("/rent-cars");
+};
+
+
   return (
     <div className="home-container">
 
@@ -84,11 +89,13 @@ const [popularCars, setPopularCars] = useState([]);
         <div className="white-overlay"></div> 
         <div className="hero-overlay">
           <div className="hero-text">
-            <h1>We Have Prepared a Car For Your Trip</h1>
-            <p>We have many types of cars that are ready for your trip anywhere and anytime.</p>
+            <h1>Crafted for Nepal's Roads, Designed for Your Journey</h1>
+            <p>Choose from a range of cars built for everything Nepal has to offer.</p>
             <div className="hero-buttons">
               <button className="btn-primary">Get In Touch</button>
-              <button className="btn-outline">Our Cars</button>
+              <button className="btn-outline" onClick={goToRentCars}>
+              Our Cars
+            </button>
             </div>
           </div>
         </div>
@@ -125,22 +132,22 @@ const [popularCars, setPopularCars] = useState([]);
 
       {/* Popular Rents */}
       <section className="popular-rents">
-  <h2>Our popular rents</h2>
-  <div className="cars">
-    {popularCars.map((car, index) => (
-      <div className="car-card enhanced" key={index}>
-        <img src={`http://127.0.0.1:8000${car.image}`} alt={car.name} className="car-image" />
-        <div className="car-info">
-          <h3>{car.name}</h3>
-          <p className="price">Nrs. {car.price} <span>/Day</span></p>
-          <button className="rent-btn" onClick={() => navigate(`/car-details/${car.id}`)}>
-            Rent Now
-          </button>
-        </div>
+      <h2>Our popular rents</h2>
+      <div className="cars">
+        {popularCars.map((car, index) => (
+          <div className="car-card enhanced" key={index}>
+            <img src={`http://127.0.0.1:8000${car.image}`} alt={car.name} className="car-image" />
+            <div className="car-info">
+              <h3>{car.name}</h3>
+              <p className="price">Nrs. {car.price} <span>/Day</span></p>
+              <button className="rent-btn" onClick={() => navigate(`/car-details/${car.id}`)}>
+                Rent Now
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
-    ))}
-  </div>
-</section>
+    </section>
 
       {/* How It Works */}
       <section className="how-it-works">
