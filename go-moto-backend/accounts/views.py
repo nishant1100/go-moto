@@ -21,6 +21,7 @@ from .serializers import UserSerializer
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate, login
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 User = get_user_model()
@@ -33,8 +34,11 @@ def register_user(request):
         return Response({"message": "User registered successfully."}, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+@csrf_exempt
 @api_view(['POST'])
 def api_login(request):
+    print("Login endpoint hit")  # ✅ Debug log
     email = request.data.get('email')
     password = request.data.get('password')
 

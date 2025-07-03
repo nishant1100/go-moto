@@ -18,8 +18,6 @@ const RentSummary = () => {
   const [car, setCar] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-
-
   useEffect(() => {
     const fetchCar = async () => {
       try {
@@ -42,21 +40,86 @@ const RentSummary = () => {
     const to = new Date(state.dateRange.to);
     return (to - from) / (1000 * 60 * 60 * 24) + 1;
   };
-  const handleBookingSubmit = async () => {
-    try {
-      const bookingData = {
-        pickup_datetime: pickupDate.toISOString(),
-        dropoff_datetime: dropoffDate.toISOString(),
-        payment_method: selectedPaymentMethod, // "esewa" or "office"
-      };
 
+  // function getCookie(name) {
+  //   const value = `; ${document.cookie}`;
+  //   const parts = value.split(`; ${name}=`);
+  //   if (parts.length === 2) return parts.pop().split(';').shift();
+  // }
+  // const csrftoken = getCookie('csrftoken');
+
+  // const handleBookingSubmit = async () => {
+  //   if (!state?.dateRange?.from || !state?.dateRange?.to) {
+  //     alert("Please select valid pickup and dropoff dates.");
+  //     return;
+  //   }
+
+  //   const pickupDate = new Date(state.dateRange.from);
+  //   const dropoffDate = new Date(state.dateRange.to);
+
+  //   const bookingData = {
+  //     pickup_datetime: pickupDate.toISOString(),
+  //     dropoff_datetime: dropoffDate.toISOString(),
+  //     payment_method: "office",
+  //   };
+
+  //   try {
+  //     const response = await axios.post(
+  //       `http://127.0.0.1:8000/api/book-car/${id}/`,
+  //       bookingData,
+  //       {
+  //         withCredentials: true,
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           "X-CSRFToken": Cookies.get("csrftoken"), // ✅ Add this line
+  //         },
+  //       }
+  //     );
+
+  //     alert(response.data.message);
+  //     setShowModal(true);
+  //   } catch (err) {
+  //     if (err.response?.data?.error) {
+  //       alert(err.response.data.error);
+  //     } else {
+  //       alert("Booking failed. Please try again later.");
+  //     }
+  //     console.error("Booking error:", err);
+  //   }
+  // };
+
+  const getCookie = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  };
+
+  const handleBookingSubmit = async () => {
+    if (!state?.dateRange?.from || !state?.dateRange?.to) {
+      alert("Please select valid pickup and dropoff dates.");
+      return;
+    }
+
+    const pickupDate = new Date(state.dateRange.from);
+    const dropoffDate = new Date(state.dateRange.to);
+
+    const bookingData = {
+      pickup_datetime: pickupDate.toISOString(),
+      dropoff_datetime: dropoffDate.toISOString(),
+      payment_method: "office",
+    };
+
+    const csrftoken = getCookie("csrftoken");
+
+    try {
       const response = await axios.post(
-        `http://127.0.0.1:8000/api/book-car/${carId}/`,
+        `http://127.0.0.1:8000/api/book-car/${id}/`,
         bookingData,
         {
-          withCredentials: true,  // This is the key part!
+          withCredentials: true, // required for cookies
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrftoken, // ✅ required for Django CSRF validation
           },
         }
       );
@@ -69,21 +132,14 @@ const RentSummary = () => {
       } else {
         alert("Booking failed. Please try again later.");
       }
+      console.error("Booking error:", err);
     }
   };
 
 
-  // On confirm payment
   const handlePayAtOffice = () => {
     handleBookingSubmit();
-    // You can also call API to store booking here
-    setShowModal(true);
   };
-
-
-
-
-
 
   const formatDate = (date) =>
     new Date(date).toLocaleDateString("en-GB", {

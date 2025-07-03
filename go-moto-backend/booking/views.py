@@ -170,51 +170,52 @@ def car_detail_api(request, id):
     return JsonResponse(data)
 
 
-@login_required(login_url='login')
-def book_car(request, car_id):
-    # car = Car.objects.prefetch_related('reviews').get(id=car_id)
+# @login_required(login_url='login')
+# def book_car(request, car_id):
+#     # car = Car.objects.prefetch_related('reviews').get(id=car_id)
     
-    car = get_object_or_404(Car, id=car_id)
-    approved_reviews = car.reviews.filter(approved=True)
+#     car = get_object_or_404(Car, id=car_id)
+#     approved_reviews = car.reviews.filter(approved=True)
     
-    # Check if the user is verified
-    try:
-        id_verification = IDVerification.objects.get(user=request.user)
-        id_verification_status = id_verification.status == 'verified'
-    except IDVerification.DoesNotExist:
-        id_verification_status = False
+#     # Check if the user is verified
+#     try:
+#         id_verification = IDVerification.objects.get(user=request.user)
+#         id_verification_status = id_verification.status == 'verified'
+#     except IDVerification.DoesNotExist:
+#         id_verification_status = False
     
-    # Check if the user has already booked this car
-    if Booking.objects.filter(user=request.user, car=car, status='pending').exists():
-        return render(request, 'booking.html', {'car': car, 'message': 'You have already booked this car.', 'isbooked': True,'reviews': approved_reviews})
+#     # Check if the user has already booked this car
+#     if Booking.objects.filter(user=request.user, car=car, status='pending').exists():
+#         return render(request, 'booking.html', {'car': car, 'message': 'You have already booked this car.', 'isbooked': True,'reviews': approved_reviews})
     
-    if request.method == 'POST':
-        form = CarSearchForm(request.POST)
-        if form.is_valid():
-            pickup_datetime = form.cleaned_data['pickup_datetime']
-            dropoff_datetime = form.cleaned_data['dropoff_datetime']
+#     if request.method == 'POST':
+#         form = CarSearchForm(request.POST)
+#         if form.is_valid():
+#             pickup_datetime = form.cleaned_data['pickup_datetime']
+#             dropoff_datetime = form.cleaned_data['dropoff_datetime']
 
-            duration_hours = Decimal((dropoff_datetime - pickup_datetime).total_seconds()) / Decimal(3600)
-            total_price = round(duration_hours * car.hourly_rate, 2)
+#             duration_hours = Decimal((dropoff_datetime - pickup_datetime).total_seconds()) / Decimal(3600)
+#             total_price = round(duration_hours * car.hourly_rate, 2)
 
-            # Convert pickup_datetime and dropoff_datetime to strings
-            pickup_datetime_str = pickup_datetime.strftime('%Y-%m-%d %H:%M:%S')
-            dropoff_datetime_str = dropoff_datetime.strftime('%Y-%m-%d %H:%M:%S')
+#             # Convert pickup_datetime and dropoff_datetime to strings
+#             pickup_datetime_str = pickup_datetime.strftime('%Y-%m-%d %H:%M:%S')
+#             dropoff_datetime_str = dropoff_datetime.strftime('%Y-%m-%d %H:%M:%S')
 
-            # Create a context dictionary
-            context = {
-                'car': car,
-                'pickup_datetime': pickup_datetime_str,
-                'dropoff_datetime': dropoff_datetime_str,
-                'total_price': total_price,
-            }
+#             # Create a context dictionary
+#             context = {
+#                 'car': car,
+#                 'pickup_datetime': pickup_datetime_str,
+#                 'dropoff_datetime': dropoff_datetime_str,
+#                 'total_price': total_price,
+#             }
 
-            # Redirect to the payment page with necessary data
-            return render(request, 'payment.html', context)
+#             # Redirect to the payment page with necessary data
+#             return render(request, 'payment.html', context)
         
-    else:
-        form = CarSearchForm()
-    return render(request, 'booking.html', {'car': car,'form':form, 'id_verification_status': id_verification_status, 'reviews': approved_reviews})
+#     else:
+#         form = CarSearchForm()
+#     return render(request, 'booking.html', {'car': car,'form':form, 'id_verification_status': id_verification_status, 'reviews': approved_reviews})
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -392,7 +393,7 @@ def popular_cars_api(request):
     from .models import Car
 
     # Get top 4 popular cars by revenue
-    popular_cars = Car.get_cars_by_revenue()[:4]
+    popular_cars = Car.get_cars_by_revenue()[:3]
 
     data = []
     for car in popular_cars:
