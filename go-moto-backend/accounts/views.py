@@ -22,6 +22,14 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.authtoken.models import Token
+from django.contrib.auth import authenticate, login
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import AllowAny
+from rest_framework.decorators import permission_classes
+
 
 # Create your views here.
 User = get_user_model()
@@ -35,18 +43,26 @@ def register_user(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@csrf_exempt
+
+
+User = get_user_model()
+
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def api_login(request):
-    print("Login endpoint hit")  # ✅ Debug log
     email = request.data.get('email')
     password = request.data.get('password')
+    print("Received email:", email)
+    print("Received password:", password)
 
     user = authenticate(request, username=email, password=password)
+    print("Authenticated user:", user)
+
     if user is not None:
-        login(request, user)
+        token, created = Token.objects.get_or_create(user=user)
         return Response({
             'message': 'Login successful.',
+            'token': token.key,
             'user': {
                 'id': user.id,
                 'username': user.username,
@@ -54,9 +70,7 @@ def api_login(request):
             }
         })
     else:
-        return Response({'error': 'Invalid email or password.'}, status=status.HTTP_400_BAD_REQUEST)
-
-
+        return Response({'error': 'Invalid email or password.'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 def signup(request):

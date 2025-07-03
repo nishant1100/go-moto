@@ -287,9 +287,9 @@ const Login = () => {
         e.preventDefault();
         try {
             const response = await axios.post('http://127.0.0.1:8000/api/login/', formData);
-            const user = response.data.user;
-            console.log(response.data);
+            const { token, user } = response.data;
 
+            localStorage.setItem('token', token);
             localStorage.setItem('user', JSON.stringify(user));
             localStorage.setItem('loggedIn', 'true');
             window.dispatchEvent(new Event('storageChanged'));

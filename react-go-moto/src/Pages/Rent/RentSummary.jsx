@@ -109,17 +109,16 @@ const RentSummary = () => {
       payment_method: "office",
     };
 
-    const csrftoken = getCookie("csrftoken");
+    const token = localStorage.getItem("token");
 
     try {
       const response = await axios.post(
         `http://127.0.0.1:8000/api/book-car/${id}/`,
         bookingData,
         {
-          withCredentials: true, // required for cookies
           headers: {
             "Content-Type": "application/json",
-            "X-CSRFToken": csrftoken, // ✅ required for Django CSRF validation
+            Authorization: `Token ${token}`,
           },
         }
       );
@@ -135,6 +134,7 @@ const RentSummary = () => {
       console.error("Booking error:", err);
     }
   };
+
 
 
   const handlePayAtOffice = () => {

@@ -23,6 +23,10 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from decimal import Decimal
 from .models import Car, Booking
+from rest_framework.permissions import AllowAny
+from rest_framework.decorators import permission_classes
+from decimal import Decimal
+
 
 from accounts.models import IDVerification
 from accounts.models import Favourite
@@ -47,7 +51,7 @@ def search_cars(request):
 
             # Calculate price for each car
             for car in available_cars:
-                car.total_price = round(duration_hours * car.hourly_rate, 2)
+                car.total_price = round(duration_hours * float(car.daily_rate), 2)
             
             return render(request, 'available_cars.html', {'cars': available_cars})
     else:
@@ -232,24 +236,21 @@ def api_book_car(request, car_id):
     if not pickup_datetime or not dropoff_datetime:
         return Response({"error": "Pickup and dropoff datetime required."}, status=400)
     
-    # Parse datetime strings to datetime objects
     from django.utils.dateparse import parse_datetime
     pickup_dt = parse_datetime(pickup_datetime)
     dropoff_dt = parse_datetime(dropoff_datetime)
     if not pickup_dt or not dropoff_dt:
         return Response({"error": "Invalid datetime format."}, status=400)
     
-    # Calculate duration and price
-    duration_hours = (dropoff_dt - pickup_dt).total_seconds() / 3600
-    total_price = round(duration_hours * car.hourly_rate, 2)
+    duration_hours = Decimal((dropoff_dt - pickup_dt).total_seconds()) / Decimal(3600)
+    total_price = (duration_hours * car.daily_rate).quantize(Decimal('0.01'))
 
-    # Create booking record
     booking = Booking.objects.create(
         user=request.user,
         car=car,
-        pickup_datetime=pickup_dt,
-        dropoff_datetime=dropoff_dt,
-        total_price=total_price,
+        pick_up_date=pickup_dt,
+        drop_off_date=dropoff_dt,
+        estimated_price=total_price,
         status='pending',
         payment_method=request.data.get('payment_method', 'unknown')
     )
