@@ -44,7 +44,7 @@ class Car(models.Model):
     
     def calculate_revenue(self):
         bookings = Booking.objects.filter(car=self, status='accepted')
-        total_revenue = bookings.aggregate(Sum('estimated_price'))['estimated_price__sum'] or 0
+        total_revenue = bookings.aggregate(Sum('total_price'))['total_price__sum'] or 0
         return total_revenue
 
     @staticmethod

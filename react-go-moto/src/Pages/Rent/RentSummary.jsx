@@ -1,15 +1,10 @@
 import axios from 'axios';
-import {
-  ArrowLeft,
-  CalendarDays,
-  CarFront,
-  Clock,
-  IndianRupee,
-  User,
-} from "lucide-react";
+import {ArrowLeft, CalendarDays, CarFront, Clock, IndianRupee, User,} from "lucide-react";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "./RentSummary.css";
+import CryptoJS from "crypto-js";
+
 
 const RentSummary = () => {
   const { id } = useParams();
@@ -40,53 +35,6 @@ const RentSummary = () => {
     const to = new Date(state.dateRange.to);
     return (to - from) / (1000 * 60 * 60 * 24) + 1;
   };
-
-  // function getCookie(name) {
-  //   const value = `; ${document.cookie}`;
-  //   const parts = value.split(`; ${name}=`);
-  //   if (parts.length === 2) return parts.pop().split(';').shift();
-  // }
-  // const csrftoken = getCookie('csrftoken');
-
-  // const handleBookingSubmit = async () => {
-  //   if (!state?.dateRange?.from || !state?.dateRange?.to) {
-  //     alert("Please select valid pickup and dropoff dates.");
-  //     return;
-  //   }
-
-  //   const pickupDate = new Date(state.dateRange.from);
-  //   const dropoffDate = new Date(state.dateRange.to);
-
-  //   const bookingData = {
-  //     pickup_datetime: pickupDate.toISOString(),
-  //     dropoff_datetime: dropoffDate.toISOString(),
-  //     payment_method: "office",
-  //   };
-
-  //   try {
-  //     const response = await axios.post(
-  //       `http://127.0.0.1:8000/api/book-car/${id}/`,
-  //       bookingData,
-  //       {
-  //         withCredentials: true,
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           "X-CSRFToken": Cookies.get("csrftoken"), // ✅ Add this line
-  //         },
-  //       }
-  //     );
-
-  //     alert(response.data.message);
-  //     setShowModal(true);
-  //   } catch (err) {
-  //     if (err.response?.data?.error) {
-  //       alert(err.response.data.error);
-  //     } else {
-  //       alert("Booking failed. Please try again later.");
-  //     }
-  //     console.error("Booking error:", err);
-  //   }
-  // };
 
   const getCookie = (name) => {
     const value = `; ${document.cookie}`;

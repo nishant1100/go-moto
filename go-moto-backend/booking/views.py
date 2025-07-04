@@ -423,7 +423,7 @@ def popular_cars_api(request):
     from .models import Car
 
     # Get top 4 popular cars by revenue
-    popular_cars = Car.get_cars_by_revenue()[:3]
+    popular_cars = Car.get_cars_by_revenue()[:4]
 
     data = []
     for car in popular_cars:

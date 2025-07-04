@@ -35,6 +35,7 @@ from rest_framework.decorators import permission_classes
 User = get_user_model()
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def register_user(request):
     serializer = UserSerializer(data=request.data)
     if serializer.is_valid():
@@ -196,3 +197,18 @@ def check_favourite(request):
     car_id = request.POST.get('car_id')
     favourited = Favourite.objects.filter(user=request.user, car_id=car_id).exists()
     return JsonResponse({'favourited': favourited})
+
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user_profile(request):
+    user = request.user
+    return Response({
+        'id': user.id,
+        'username': user.username,
+        'email': user.email,
+        # Add more fields if needed
+    })
