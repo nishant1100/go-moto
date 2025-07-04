@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import available_cars,view_bookings,search_cars,cancel_booking,payment,submit_review, car_list_api, car_detail_api
 from .views import available_cars, view_bookings, search_cars, cancel_booking, payment, submit_review, car_list_api, car_detail_api, popular_cars_api, api_book_car
-
+from . import views
 
 
 urlpatterns = [
@@ -17,6 +17,9 @@ urlpatterns = [
     path('payment/<int:car_id>/<str:pickup_datetime>/<str:dropoff_datetime>/<str:total_price>/', payment, name='payment'), 
     path('cars/popular/', popular_cars_api, name='popular-cars-api'),
     path('book-car/<int:car_id>/', api_book_car, name='api_book_car'),
+    path('my-bookings/', views.my_bookings, name='my_bookings'),
+    path('cancel-booking/<int:booking_id>/', views.cancel_booking, name='cancel_booking'),
+    path('leave-review/<int:booking_id>/', views.leave_review, name='leave_review'),
 
     # Add other URLs here if needed
 ]

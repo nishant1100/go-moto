@@ -26,6 +26,9 @@ from .models import Car, Booking
 from rest_framework.permissions import AllowAny
 from rest_framework.decorators import permission_classes
 from decimal import Decimal
+from .serializers import BookingSerializer
+from rest_framework import status as drf_status
+from .models import Review
 
 
 from accounts.models import IDVerification
@@ -174,53 +177,6 @@ def car_detail_api(request, id):
     return JsonResponse(data)
 
 
-# @login_required(login_url='login')
-# def book_car(request, car_id):
-#     # car = Car.objects.prefetch_related('reviews').get(id=car_id)
-    
-#     car = get_object_or_404(Car, id=car_id)
-#     approved_reviews = car.reviews.filter(approved=True)
-    
-#     # Check if the user is verified
-#     try:
-#         id_verification = IDVerification.objects.get(user=request.user)
-#         id_verification_status = id_verification.status == 'verified'
-#     except IDVerification.DoesNotExist:
-#         id_verification_status = False
-    
-#     # Check if the user has already booked this car
-#     if Booking.objects.filter(user=request.user, car=car, status='pending').exists():
-#         return render(request, 'booking.html', {'car': car, 'message': 'You have already booked this car.', 'isbooked': True,'reviews': approved_reviews})
-    
-#     if request.method == 'POST':
-#         form = CarSearchForm(request.POST)
-#         if form.is_valid():
-#             pickup_datetime = form.cleaned_data['pickup_datetime']
-#             dropoff_datetime = form.cleaned_data['dropoff_datetime']
-
-#             duration_hours = Decimal((dropoff_datetime - pickup_datetime).total_seconds()) / Decimal(3600)
-#             total_price = round(duration_hours * car.hourly_rate, 2)
-
-#             # Convert pickup_datetime and dropoff_datetime to strings
-#             pickup_datetime_str = pickup_datetime.strftime('%Y-%m-%d %H:%M:%S')
-#             dropoff_datetime_str = dropoff_datetime.strftime('%Y-%m-%d %H:%M:%S')
-
-#             # Create a context dictionary
-#             context = {
-#                 'car': car,
-#                 'pickup_datetime': pickup_datetime_str,
-#                 'dropoff_datetime': dropoff_datetime_str,
-#                 'total_price': total_price,
-#             }
-
-#             # Redirect to the payment page with necessary data
-#             return render(request, 'payment.html', context)
-        
-#     else:
-#         form = CarSearchForm()
-#     return render(request, 'booking.html', {'car': car,'form':form, 'id_verification_status': id_verification_status, 'reviews': approved_reviews})
-
-
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def api_book_car(request, car_id):
@@ -230,15 +186,15 @@ def api_book_car(request, car_id):
     if Booking.objects.filter(user=request.user, car=car, status='pending').exists():
         return Response({"error": "You have already booked this car."}, status=400)
 
-    pickup_datetime = request.data.get('pickup_datetime')
-    dropoff_datetime = request.data.get('dropoff_datetime')
+    pick_up_date = request.data.get('pick_up_date')
+    drop_off_date = request.data.get('drop_off_date')
 
-    if not pickup_datetime or not dropoff_datetime:
+    if not pick_up_date or not drop_off_date:
         return Response({"error": "Pickup and dropoff datetime required."}, status=400)
     
     from django.utils.dateparse import parse_datetime
-    pickup_dt = parse_datetime(pickup_datetime)
-    dropoff_dt = parse_datetime(dropoff_datetime)
+    pickup_dt = parse_datetime(pick_up_date)
+    dropoff_dt = parse_datetime(drop_off_date)
     if not pickup_dt or not dropoff_dt:
         return Response({"error": "Invalid datetime format."}, status=400)
     
@@ -250,7 +206,7 @@ def api_book_car(request, car_id):
         car=car,
         pick_up_date=pickup_dt,
         drop_off_date=dropoff_dt,
-        estimated_price=total_price,
+        total_price=total_price,
         status='pending',
         payment_method=request.data.get('payment_method', 'unknown')
     )
@@ -262,6 +218,79 @@ def api_book_car(request, car_id):
         "status": booking.status,
         "message": "Booking created successfully."
     }, status=201)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def my_bookings(request):
+    bookings = Booking.objects.filter(user=request.user).order_by('-pick_up_date')
+
+    now = timezone.now()
+
+    upcoming = []
+    past = []
+
+    for booking in bookings:
+        data = BookingSerializer(booking).data
+        if booking.drop_off_date> now and booking.status not in ['cancelled']:
+            upcoming.append(data)
+        else:
+            past.append(data)
+
+    return Response({
+        "upcoming_bookings": upcoming,
+        "past_bookings": past
+    })
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def cancel_booking(request, booking_id):
+    try:
+        booking = Booking.objects.get(id=booking_id, user=request.user)
+
+        # Check if the current time is more than 3 hours from the booking time
+        if timezone.now() > booking.booking_date + timedelta(hours=3):
+            # Deduct 20% from the payment
+            booking.estimated_price *= Decimal('0.2')
+        else:
+            booking.estimated_price = Decimal('0')
+
+        booking.status = 'cancelled'
+        booking.save()
+
+        return Response({'status': 'ok'})
+    except Booking.DoesNotExist:
+        return Response({'status': 'error', 'message': 'Booking not found.'}, status=404)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def leave_review(request, booking_id):
+    try:
+        booking = Booking.objects.get(id=booking_id, user=request.user)
+    except Booking.DoesNotExist:
+        return Response({"error": "Booking not found."}, status=404)
+
+    if booking.status != 'completed':
+        return Response({"error": "Can only review completed bookings."}, status=400)
+
+    rating = request.data.get('rating')
+    comment = request.data.get('comment')
+
+    if not rating:
+        return Response({"error": "Rating is required."}, status=400)
+
+    review = Review.objects.create(
+        user=request.user,
+        car=booking.car,
+        booking=booking,
+        rating=int(rating),
+        comment=comment or ""
+    )
+
+    return Response({"message": "Review saved."})
+
+
+
 
 @login_required(login_url='login')
 def view_bookings(request):
@@ -308,26 +337,26 @@ from django.shortcuts import render, get_object_or_404
 from django.core.mail import send_mail
 from .models import Booking, Car
 
-def payment(request, car_id, pickup_datetime, dropoff_datetime, total_price):
+def payment(request, car_id, pick_up_date, drop_off_date, total_price):
     car = get_object_or_404(Car, id=car_id)
 
     if request.method == 'POST':
         # Check if a booking already exists
-        existing_booking = Booking.objects.filter(user=request.user, car=car, pick_up_date=pickup_datetime, drop_off_date=dropoff_datetime,status='pending').exists()
+        existing_booking = Booking.objects.filter(user=request.user, car=car, pick_up_date=pick_up_date, drop_off_date=drop_off_date,status='pending').exists()
 
         if existing_booking:
             # Render the payment page with an error message
-            return render(request, 'payment.html', {'car': car, 'pickup_datetime': pickup_datetime, 'dropoff_datetime': dropoff_datetime, 'total_price': total_price, 'error_message': 'You have already booked this car for the selected time range.'})
+            return render(request, 'payment.html', {'car': car, 'pickup_datetime': pick_up_date, 'dropoff_datetime': drop_off_date, 'total_price': total_price, 'error_message': 'You have already booked this car for the selected time range.'})
         else:
             # Create the booking
-            Booking.objects.create(user=request.user, car=car, status='pending', estimated_price=total_price, drop_off_date=dropoff_datetime, pick_up_date=pickup_datetime)
+            Booking.objects.create(user=request.user, car=car, status='pending', estimated_price=total_price, drop_off_date=drop_off_date, pick_up_date=pick_up_date)
 
             # Send an email to the user
             send_mail(
-                f'Booking Successful for Car {car.model} on {pickup_datetime}',
+                f'Booking Successful for Car {car.model} on {pick_up_date}',
                 f'''Your booking has been successful and waiting confiramation by the dealer.
                 Car: {car.model}.
-                For date {pickup_datetime} to {dropoff_datetime}.
+                For date {pick_up_date} to {drop_off_date}.
                 Total Price: {total_price}.\n
                 Thank you for booking with us.
                 ''',
@@ -337,10 +366,10 @@ def payment(request, car_id, pickup_datetime, dropoff_datetime, total_price):
             )
 
             # Render the payment page with the success message
-            return render(request, 'payment.html', {'car': car, 'pickup_datetime': pickup_datetime, 'dropoff_datetime': dropoff_datetime, 'total_price': total_price, 'booking_confirmed': True})
+            return render(request, 'payment.html', {'car': car, 'pickup_datetime': pick_up_date, 'dropoff_datetime': drop_off_date, 'total_price': total_price, 'booking_confirmed': True})
 
     # Render the payment page
-    return render(request, 'payment.html', {'car': car, 'pickup_datetime': pickup_datetime, 'dropoff_datetime': dropoff_datetime, 'total_price': total_price})
+    return render(request, 'payment.html', {'car': car, 'pickup_datetime': pick_up_date, 'dropoff_datetime': drop_off_date, 'total_price': total_price})
 
 
 

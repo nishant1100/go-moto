@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useRef } from 'react';
-import './Navbar.css';
-import { Link, useNavigate } from 'react-router-dom';
 import logo from '@/assets/gomoto_logo.png';
+import { useEffect, useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import './Navbar.css';
 
 // You can replace this with an actual user icon or SVG
 const UserIcon = () => (
@@ -43,7 +43,7 @@ const Navbar = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-    useEffect(() => {
+  useEffect(() => {
     const onStorageChange = () => {
       const savedUser = localStorage.getItem('user');
       setUser(savedUser ? JSON.parse(savedUser) : null);
@@ -68,16 +68,16 @@ const Navbar = () => {
           </Link>
         </div>
         <ul className="nav-links">
-  <li><Link to="/">Home</Link></li>
-  <li><Link to="/rent-cars">Rent Car</Link></li>
-  <li><Link to="/blog">BLOG</Link></li>
-  {user ? (
-    <li><Link to="/my-rents">My Rents</Link></li>
-  ) : (
-    <li><Link to="/terms">Terms & Conditions</Link></li>
-  )}
-  <li><Link to="/contact">Contact Us</Link></li>
-</ul>
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/rent-cars">Rent Car</Link></li>
+          <li><Link to="/blog">BLOG</Link></li>
+          {user ? (
+            <li><Link to="/myRent">My Rents</Link></li>
+          ) : (
+            <li><Link to="/terms">Terms & Conditions</Link></li>
+          )}
+          <li><Link to="/contact">Contact Us</Link></li>
+        </ul>
 
         <div className="signin-btn">
           {!user ? (
@@ -97,9 +97,9 @@ const Navbar = () => {
               {dropdownOpen && (
                 <ul className="dropdown-menu">
                   <li>
-                  <Link to="/user-profile" onClick={() => setDropdownOpen(false)}>
-                    Profile
-                  </Link>
+                    <Link to="/user-profile" onClick={() => setDropdownOpen(false)}>
+                      Profile
+                    </Link>
                   </li>
                   <li>
                   </li>

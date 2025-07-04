@@ -89,7 +89,7 @@ class Booking(models.Model):
     car = models.ForeignKey(Car, on_delete=models.CASCADE)
     booking_date = models.DateTimeField(auto_now_add=True)  # Removed auto_now_add=True
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
-    estimated_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     drop_off_date = models.DateTimeField(default=datetime.now)
     pick_up_date = models.DateTimeField(default=datetime.now)
     payment_method = models.CharField(max_length=50, default='unknown')

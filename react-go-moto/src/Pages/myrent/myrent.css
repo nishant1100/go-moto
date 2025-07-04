@@ -1,0 +1,108 @@
+/* Page wrapper */
+.my-rent-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Headings */
+.my-rent-container h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.my-rent-container h3 {
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: #444;
+}
+
+.my-rent-container h4 {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+  color: #222;
+}
+
+/* Booking Card */
+.booking-card {
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+  padding: 15px;
+  border-radius: 8px;
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Booking Image */
+.booking-card img {
+  width: 200px;
+  height: auto;
+  border-radius: 6px;
+}
+
+/* Booking details text */
+.booking-details {
+  flex: 1;
+}
+
+.booking-details p {
+  margin: 4px 0;
+  color: #555;
+}
+
+/* Buttons */
+.booking-card button,
+.review-form button {
+  padding: 8px 12px;
+  margin-top: 10px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background-color 0.3s ease;
+}
+
+.booking-card button:hover,
+.review-form button:hover {
+  background-color: #0056b3;
+}
+
+/* Review form container */
+.review-form {
+  border: 1px solid #333;
+  padding: 15px;
+  margin-top: 20px;
+  background: #eee;
+  border-radius: 8px;
+  max-width: 500px;
+}
+
+.review-form label {
+  display: block;
+  margin-bottom: 10px;
+  color: #333;
+  font-weight: 500;
+}
+
+.review-form input,
+.review-form textarea {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #aaa;
+  margin-top: 4px;
+  box-sizing: border-box;
+}
+
+.review-form textarea {
+  min-height: 80px;
+  resize: vertical;
+}

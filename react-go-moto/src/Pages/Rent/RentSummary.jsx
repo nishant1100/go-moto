@@ -104,8 +104,8 @@ const RentSummary = () => {
     const dropoffDate = new Date(state.dateRange.to);
 
     const bookingData = {
-      pickup_datetime: pickupDate.toISOString(),
-      dropoff_datetime: dropoffDate.toISOString(),
+      pick_up_date: pickupDate.toISOString(),
+      drop_off_date: dropoffDate.toISOString(),
       payment_method: "office",
     };
 
@@ -128,8 +128,6 @@ const RentSummary = () => {
     } catch (err) {
       if (err.response?.data?.error) {
         alert(err.response.data.error);
-      } else {
-        alert("Booking failed. Please try again later.");
       }
       console.error("Booking error:", err);
     }

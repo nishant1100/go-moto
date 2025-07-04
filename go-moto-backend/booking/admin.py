@@ -130,7 +130,7 @@ class BookingAdmin(admin.ModelAdmin):
     list_editable = ('status',)
     list_filter = (BookingStatusFilter,)
     base_site_template = 'admin/base_site.html'
-    readonly_fields = ('user', 'car','pick_up_date', 'drop_off_date','estimated_price', 'booking_date',)
+    readonly_fields = ('user', 'car','pick_up_date', 'drop_off_date','total_price', 'booking_date',)
 
     def changelist_view(self, request, extra_context=None):
         extra_context = extra_context or {}
