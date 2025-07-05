@@ -10,6 +10,9 @@ from django.apps import apps
 # Create your models here.
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+    license_front = models.ImageField(upload_to='licenses/', blank=True, null=True)
+
 
 
     USERNAME_FIELD = 'email'

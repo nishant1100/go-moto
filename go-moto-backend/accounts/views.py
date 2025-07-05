@@ -212,3 +212,43 @@ def get_user_profile(request):
         'email': user.email,
         # Add more fields if needed
     })
+
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework import status
+from django.core.files.base import ContentFile
+import base64, uuid
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def update_user_profile(request):
+    user = request.user
+    data = request.data
+
+    user.username = data.get('username', user.username)
+    user.email = data.get('email', user.email)
+
+    avatar_data = data.get('avatar')
+    if avatar_data and avatar_data.startswith('data:image'):
+        format, imgstr = avatar_data.split(';base64,') 
+        ext = format.split('/')[-1]
+        file_name = f"{uuid.uuid4()}.{ext}"
+        user.avatar.save(file_name, ContentFile(base64.b64decode(imgstr)), save=False)
+
+    license_data = data.get('license_front')
+    if license_data and license_data.startswith('data:image'):
+        format, imgstr = license_data.split(';base64,') 
+        ext = format.split('/')[-1]
+        file_name = f"{uuid.uuid4()}.{ext}"
+        user.license_front.save(file_name, ContentFile(base64.b64decode(imgstr)), save=False)
+
+    if data.get('password'):
+        user.set_password(data['password'])
+
+    user.save()
+    return Response({"message": "Profile updated successfully"}, status=status.HTTP_200_OK)
+
+
+
+
