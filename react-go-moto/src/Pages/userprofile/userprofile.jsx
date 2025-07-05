@@ -14,6 +14,10 @@ const UserProfile = () => {
 
   const [loading, setLoading] = useState(true);
 
+  const [isLicenseModalOpen, setIsLicenseModalOpen] = useState(false);
+  const [licenseLoading, setLicenseLoading] = useState(false);
+
+
   // Fetch profile on mount
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -34,7 +38,9 @@ const UserProfile = () => {
           ...prev,
           name: res.data.username || '',
           email: res.data.email || '',
-          avatar: res.data.avatar || '', // Optional: if you return an avatar URL
+          avatar: localStorage.getItem("user_avatar") || res.data.avatar || '',
+          licenseFront: localStorage.getItem("user_license") || res.data.license_front || '',
+ // Optional: if you return an avatar URL
         }));
 
         setLoading(false);
@@ -131,7 +137,9 @@ alert("Profile updated successfully!");
                 if (file) {
                   const reader = new FileReader();
                   reader.onloadend = () => {
-                    setFormData({ ...formData, avatar: reader.result });
+                    const base64Image = reader.result;
+                    setFormData((prev) => ({ ...prev, avatar: base64Image }));
+                    localStorage.setItem("user_avatar", base64Image);  // ✅ Save to localStorage
                   };
                   reader.readAsDataURL(file);
                 }
@@ -199,24 +207,61 @@ alert("Profile updated successfully!");
                 if (file) {
                   const reader = new FileReader();
                   reader.onloadend = () => {
-                    setFormData({ ...formData, licenseFront: reader.result });
-                  };
+                  const base64License = reader.result;
+
+                  setLicenseLoading(true); // start loading
+
+                  setTimeout(() => {
+                    setFormData((prev) => ({ ...prev, licenseFront: base64License }));
+                    localStorage.setItem("user_license", base64License);
+                    setLicenseLoading(false); // end loading
+                  }, 1500); // simulate 1.5 seconds of loading
+                };
                   reader.readAsDataURL(file);
                 }
               }}
             />
           </div>
 
-          <p className="verify-note">
-            ⚠️ Please upload your driving license for verification. You won't be able to rent a car until this step is complete.
-          </p>
+            {licenseLoading ? (
+              <p className="verify-note loading">🔄 Uploading license, please wait...</p>
+            ) : formData.licenseFront ? (
+              <div className="verification-success">
+                <p className="verify-note success">✅ Congratulations on your verification.</p>
+                <div className="license-preview">
+                  <p>Your Driving License:</p>
+                  <img
+                    src={formData.licenseFront}
+                    alt="Uploaded License"
+                    className="license-image"
+                    onClick={() => setIsLicenseModalOpen(true)}
+                    style={{ cursor: 'pointer' }}
+                  />
+                </div>
+              </div>
+            ) : (
+              <p className="verify-note warning">
+                ⚠️ Please upload your driving license for verification. You won't be able to rent a car until this step is complete.
+              </p>
+            )}
           <button type="submit" className="save-button">
             Save Changes
           </button>
         </form>
       </div>
+      {isLicenseModalOpen && (
+  <div className="modal-overlay" onClick={() => setIsLicenseModalOpen(false)}>
+    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <span className="close-modal" onClick={() => setIsLicenseModalOpen(false)}>&times;</span>
+      <img src={formData.licenseFront} alt="Large License" className="modal-image" />
+    </div>
+  </div>
+)}
+
     </div>
   );
+  
+
 };
 
 export default UserProfile;
