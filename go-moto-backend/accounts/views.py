@@ -251,4 +251,68 @@ def update_user_profile(request):
 
 
 
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+from django.core.mail import send_mail
+from django.contrib.auth import get_user_model
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework import status
 
+User = get_user_model()
+
+# Step 1: Send reset email
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def send_reset_email(request):
+    email = request.data.get('email')
+    if not email:
+        return Response({'error': 'Email is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        user = User.objects.get(email=email)
+    except User.DoesNotExist:
+        return Response({'error': 'No user found with this email.'}, status=status.HTTP_404_NOT_FOUND)
+
+    uid = urlsafe_base64_encode(force_bytes(user.pk))
+    token = default_token_generator.make_token(user)
+
+    reset_link = f"http://localhost:5173/reset-password/{uid}/{token}"
+
+    send_mail(
+        subject='Password Reset Request',
+        message=f'Hi {user.username},\n\nClick the link below to reset your password:\n{reset_link}',
+        from_email='noreply@go-moto.com',
+        recipient_list=[email],
+        fail_silently=False,
+    )
+
+    return Response({'message': 'Password reset email sent.'}, status=status.HTTP_200_OK)
+
+
+# Step 2: Handle password reset form submission
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def reset_password_confirm(request, uidb64, token):
+    password = request.data.get('password')
+    confirm_password = request.data.get('confirm_password')
+
+    if not password or not confirm_password:
+        return Response({'error': 'Both password fields are required.'}, status=status.HTTP_400_BAD_REQUEST)
+    if password != confirm_password:
+        return Response({'error': 'Passwords do not match.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (User.DoesNotExist, ValueError, TypeError, OverflowError):
+        return Response({'error': 'Invalid link.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    if not default_token_generator.check_token(user, token):
+        return Response({'error': 'Invalid or expired token.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    user.set_password(password)
+    user.save()
+    return Response({'message': 'Password has been reset successfully.'}, status=status.HTTP_200_OK)

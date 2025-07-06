@@ -1,0 +1,33 @@
+.resetpw-container {
+  max-width: 400px;
+  margin: 100px auto;
+  padding: 30px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.resetpw-form input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.resetpw-form button {
+  width: 100%;
+  padding: 12px;
+  background-color: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.resetpw-form button:disabled {
+  background-color: #a3c4f3;
+}

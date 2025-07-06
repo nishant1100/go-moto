@@ -45,7 +45,6 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 import Footer from '@/components/Footer/Footer';
 import Navbar from '@/components/Navbar/Navbar';
-// ✅ Importing myRent component to handle user bookings
 import Blog from '@/Pages/Blog/blog';
 import Home from '@/Pages/Home/Home';
 import Login from '@/Pages/Login/Login';
@@ -55,6 +54,7 @@ import MyRent from './Pages/myRent/myRent';
 import RentSummary from './Pages/Rent/RentSummary';
 import RentCars from './Pages/RentCar/rentcar';
 import UserProfile from './Pages/userprofile/userprofile';
+import ResetPassword from './Pages/reset/resetpw';
 
 
 import './App.css';
@@ -81,7 +81,7 @@ function App() {
             <Route path="/blog" element={<Blog />} />
             <Route path="/user-profile" element={<UserProfile />} />
             <Route path="/myRent" element={<MyRent />} />
-
+            <Route path="/reset-password/:uidb64/:token" element={<ResetPassword />} />
           </Routes>
         </main>
         <Footer />
