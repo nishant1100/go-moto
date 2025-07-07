@@ -24,6 +24,8 @@ const CarDetails = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalImage, setModalImage] = useState(null);
   const [range, setRange] = useState({ from: undefined, to: undefined });
+  const [pickupTime, setPickupTime] = useState("");
+  const [dropoffTime, setDropoffTime] = useState("");
   const [recommendations, setRecommendations] = useState([]);
 
   const today = new Date();
@@ -212,7 +214,6 @@ const CarDetails = () => {
               To: {format(range.to, "MMMM d, yyyy")}
             </p>
           )}
-
           <div className={styles.btnWrapper}>
             <button
   className={styles.rentBtn}
@@ -239,6 +240,8 @@ const CarDetails = () => {
       state: {
         carId: car.id,
         dateRange: range,
+        pickupTime: pickupTime,
+        dropoffTime: dropoffTime,
       },
     });
   }}

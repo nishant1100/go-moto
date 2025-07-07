@@ -76,7 +76,7 @@ const Navbar = () => {
           ) : (
             <li><Link to="/terms">Terms & Conditions</Link></li>
           )}
-          <li><Link to="/contact">Contact Us</Link></li>
+          <li><Link to="/home#contact">Contact Us</Link></li>
         </ul>
 
         <div className="signin-btn">

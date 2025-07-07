@@ -181,23 +181,23 @@ def car_detail_api(request, id):
 @permission_classes([IsAuthenticated])
 def api_book_car(request, car_id):
     car = get_object_or_404(Car, id=car_id)
-    
-    # Check if already booked
-    if Booking.objects.filter(user=request.user, car=car, status='pending').exists():
-        return Response({"error": "You have already booked this car."}, status=400)
+
+    # Check if already booked and payment is pending (or unpaid)
+    if Booking.objects.filter(user=request.user, car=car, status='unpaid').exists():
+        return Response({"error": "You have already booked this car but payment is pending."}, status=400)
 
     pick_up_date = request.data.get('pick_up_date')
     drop_off_date = request.data.get('drop_off_date')
 
     if not pick_up_date or not drop_off_date:
         return Response({"error": "Pickup and dropoff datetime required."}, status=400)
-    
+
     from django.utils.dateparse import parse_datetime
     pickup_dt = parse_datetime(pick_up_date)
     dropoff_dt = parse_datetime(drop_off_date)
     if not pickup_dt or not dropoff_dt:
         return Response({"error": "Invalid datetime format."}, status=400)
-    
+
     duration_hours = Decimal((dropoff_dt - pickup_dt).total_seconds()) / Decimal(3600)
     total_price = (duration_hours * car.daily_rate).quantize(Decimal('0.01'))
 
@@ -207,7 +207,7 @@ def api_book_car(request, car_id):
         pick_up_date=pickup_dt,
         drop_off_date=dropoff_dt,
         total_price=total_price,
-        status='pending',
+        status='unpaid',  # payment status starts as unpaid
         payment_method=request.data.get('payment_method', 'unknown')
     )
 
@@ -215,9 +215,10 @@ def api_book_car(request, car_id):
         "booking_id": booking.id,
         "car": car.name,
         "total_price": total_price,
-        "status": booking.status,
-        "message": "Booking created successfully."
+        "payment_status": booking.status,  # rename in response if you want
+        "message": "Booking created successfully, payment pending."
     }, status=201)
+
 
 
 @api_view(['GET'])

@@ -4,7 +4,23 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "./RentSummary.css";
 import CryptoJS from "crypto-js";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+
+const savePaymentStatus = (carId, status) => {
+  const key = `payment_status_${carId}`;
+  localStorage.setItem(key, status);
+};
+const saveRentSummary = (carId, days, ratePerDay, totalPrice) => {
+  const summaryKey = `rent_summary_${carId}`;
+  const rentData = {
+    days,
+    ratePerDay,
+    totalPrice,
+  };
+  localStorage.setItem(summaryKey, JSON.stringify(rentData));
+};
 
 const RentSummary = () => {
   const { id } = useParams();
@@ -12,6 +28,14 @@ const RentSummary = () => {
   const navigate = useNavigate();
   const [car, setCar] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const pickupTime = state?.pickupTime || "10:00"; // fallback if not available
+const dropoffTime = state?.dropoffTime || "10:00";
+
+const pickupDate = new Date(`${state.dateRange.from}T${pickupTime}`);
+const dropoffDate = new Date(`${state.dateRange.to}T${dropoffTime}`);
+
+
+  
 
   useEffect(() => {
     const fetchCar = async () => {
@@ -59,33 +83,41 @@ const RentSummary = () => {
 
     const token = localStorage.getItem("token");
 
-    try {
-      const response = await axios.post(
-        `http://127.0.0.1:8000/api/book-car/${id}/`,
-        bookingData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Token ${token}`,
-          },
-        }
-      );
-
-      alert(response.data.message);
-      setShowModal(true);
-    } catch (err) {
-      if (err.response?.data?.error) {
-        alert(err.response.data.error);
-      }
-      console.error("Booking error:", err);
+try {
+  const response = await axios.post(
+    `http://127.0.0.1:8000/api/book-car/${id}/`,
+    bookingData,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
     }
+  );
+
+  toast.success(response.data.message, {
+    position: "top-right",
+    autoClose: 3000,
+  });
+  setShowModal(true);
+} catch (err) {
+  if (err.response?.data?.error) {
+    toast.error(err.response.data.error, {
+      position: "top-right",
+    });
+  }
+  console.error("Booking error:", err);
+}
+
   };
 
 
 
-  const handlePayAtOffice = () => {
-    handleBookingSubmit();
-  };
+const handlePayAtOffice = () => {
+  savePaymentStatus(id, "Unpaid");
+  saveRentSummary(id, totalDays, car.price, totalPrice);
+  handleBookingSubmit();
+};
 
   const formatDate = (date) =>
     new Date(date).toLocaleDateString("en-GB", {
@@ -96,6 +128,17 @@ const RentSummary = () => {
 
   const totalDays = calculateDays();
   const totalPrice = totalDays * car.price;
+  const handleEsewa = () => {
+  navigate("/esewa", {
+    state: {
+      amount: totalPrice,
+      carName: car.name,
+      pickup: pickupDate.toISOString(),
+      dropoff: dropoffDate.toISOString(),
+      carId: id,
+    },
+  });
+};
 
   return (
     <div className="summary-container">
@@ -146,7 +189,27 @@ const RentSummary = () => {
 
           <div className="payment-options">
             <h3>Choose Payment Method</h3>
-            <button className="esewa-btn">Pay with eSewa</button>
+              <button
+                className="esewa-btn"
+                onClick={() => {
+                  savePaymentStatus(id, "Paid");
+                  saveRentSummary(id, totalDays, car.price, totalPrice);
+                  navigate("/esewa", {
+                    state: {
+                      carId: id,
+                      pickup: state.dateRange.from.toISOString().slice(0, 10), // 'YYYY-MM-DD'
+                      dropoff: state.dateRange.to.toISOString().slice(0, 10),
+                      amount: totalPrice,
+                      carName: car.name,
+                    },
+                  });
+                }}
+              >
+                Pay with eSewa
+              </button>
+
+
+
             <button className="office-btn" onClick={handlePayAtOffice}>
               Pay at Office
             </button>

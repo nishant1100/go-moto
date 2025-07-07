@@ -1,0 +1,63 @@
+.esewa-fake-container {
+  min-height: 100vh;
+  background-color: #f1f7f2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.esewa-card {
+  background-color: #fff;
+  border: 2px solid #38b000;
+  border-radius: 10px;
+  padding: 30px 40px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.esewa-card h2 {
+  color: #38b000;
+  margin-bottom: 20px;
+}
+
+.esewa-card p {
+  margin: 10px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.pay-btn {
+  background-color: #38b000;
+  color: white;
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.pay-btn:hover {
+  background-color: #2d8700;
+}
+
+.cancel-btn {
+  background-color: transparent;
+  color: #999;
+  margin-top: 12px;
+  font-size: 14px;
+  text-decoration: underline;
+  border: none;
+  cursor: pointer;
+}
+
+.processing {
+  font-weight: bold;
+  color: #38b000;
+  margin-top: 20px;
+}

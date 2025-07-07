@@ -1,22 +1,31 @@
 /* Page wrapper */
 .my-rent-container {
+  background-color: #ffffff;
   padding: 20px;
-  max-width: 1200px;
+  max-width: 1600px;
   margin: 0 auto;
 }
 
 /* Headings */
+.booking-card-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  margin-left: 52px;
+}
+
 .my-rent-container h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  color: #333;
+  text-align: center;
+  color: #034fa1;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
 }
 
 .my-rent-container h3 {
   font-size: 1.5rem;
   margin-top: 2rem;
   margin-bottom: 1rem;
-  color: #444;
+  color: #034fa1;
 }
 
 .my-rent-container h4 {
@@ -25,23 +34,29 @@
   color: #222;
 }
 
+.my-rent-container p {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+  color: #222;
+}
 /* Booking Card */
 .booking-card {
   border: 1px solid #ccc;
   margin-bottom: 15px;
-  padding: 15px;
+  width: 47%;
+  padding: 25px;
   border-radius: 8px;
   display: flex;
-  gap: 15px;
+  gap: 10px;
   align-items: flex-start;
-  background-color: #f9f9f9;
+  background-color: #a7c7e7;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 /* Booking Image */
 .booking-card img {
-  width: 200px;
-  height: auto;
+  width: 350px;
+  height: 230px;
   border-radius: 6px;
 }
 
@@ -52,7 +67,7 @@
 
 .booking-details p {
   margin: 4px 0;
-  color: #555;
+  color: #000000;
 }
 
 /* Buttons */
@@ -97,7 +112,7 @@
   width: 100%;
   padding: 8px;
   border-radius: 4px;
-  border: 1px solid #aaa;
+  border: 1px solid #000000;
   margin-top: 4px;
   box-sizing: border-box;
 }
@@ -105,4 +120,48 @@
 .review-form textarea {
   min-height: 80px;
   resize: vertical;
+}
+
+
+.cancel-confirm {
+  background-color: #e74c3c;
+  color: #fff;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cancel-back {
+  background-color: #000000;
+  color: #ffffff;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.clear-cancelled-btn {
+  background-color: #e74c3c;
+  color: #fff;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.toast-action-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  width: 100%;
+  justify-content: center;
+}
+
+.toast-buttons{
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
 }

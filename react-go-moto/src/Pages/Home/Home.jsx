@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { useLocation } from 'react-router-dom';
 import './Home.css';
 
 // Car and brand assets
@@ -34,7 +34,6 @@ const carList = [
   { name: 'Hyundai Creta', price: 3200, image: hyundai1 },
 ];
 
-// Video sources (placed in /public/videos/)
 const videoSources = ['/videos/intro1.mp4', '/videos/intro2.mp4', '/videos/intro3.mp4'];
 
 const Home = () => {
@@ -45,6 +44,19 @@ const Home = () => {
 
   const videoSources = ['/videos/intro1.mp4', '/videos/intro2.mp4', '/videos/intro3.mp4'];
 
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash === '#contact') {
+      const contactSection = document.getElementById('contact');
+      if (contactSection) {
+        setTimeout(() => {
+          contactSection.scrollIntoView({ behavior: 'smooth' });
+        }, 100); 
+      }
+    }
+  }, [location]);
+  
   useEffect(() => {
     axios.get('http://127.0.0.1:8000/api/cars/popular/')
       .then((res) => {
@@ -141,7 +153,7 @@ const Home = () => {
                 <h3>{car.name}</h3>
                 <p className="price">Nrs. {car.price} <span>/Day</span></p>
                 <button className="rent-btn" onClick={() => navigate(`/car-details/${car.id}`)}>
-                  Rent Now
+                  View Detils
                 </button>
               </div>
             </div>
@@ -204,7 +216,7 @@ const Home = () => {
 
 
       {/* Contact Section */}
-      <section className="contact">
+      <section className="contact" id="contact">
         <div className="contact-title">
           <h3>Contact us</h3>
           <p className="subtitle">We’re here to help you every step of the way</p>

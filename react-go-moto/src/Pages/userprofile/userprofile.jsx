@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './userprofile.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 const UserProfile = () => {
   const [formData, setFormData] = useState({
@@ -16,6 +19,8 @@ const UserProfile = () => {
   const [isLicenseModalOpen, setIsLicenseModalOpen] = useState(false);
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
   const [licenseLoading, setLicenseLoading] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
 useEffect(() => {
   const fetchUserProfile = async () => {
@@ -83,24 +88,31 @@ useEffect(() => {
       payload.password = formData.newPassword;
     }
 
-    try {
-      const res = await axios.put("http://localhost:8000/api/profile/update/", payload, {
-        headers: {
-          Authorization: `Token ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+try {
+  const res = await axios.put("http://localhost:8000/api/profile/update/", payload, {
+    headers: {
+      Authorization: `Token ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
 
-      setFormData((prevData) => ({
-        ...prevData,
-        avatar: res.data.avatar
-      }));
+  setFormData((prevData) => ({
+    ...prevData,
+    avatar: res.data.avatar
+  }));
 
-      alert("Profile updated successfully!");
-    } catch (error) {
-      console.error("Error updating profile:", error.response?.data || error);
-      alert("Failed to update profile.");
-    }
+  toast.success("✅ Profile updated successfully!", {
+    position: "top-right",
+    autoClose: 3000,
+  });
+} catch (error) {
+  console.error("Error updating profile:", error.response?.data || error);
+  toast.error("❌ Failed to update profile.", {
+    position: "top-center",
+    autoClose: 3000,
+  });
+}
+
   };
 
   if (loading) {
@@ -203,27 +215,46 @@ useEffect(() => {
             />
           </div>
 
-          <div className="form-group">
-            <label>New Password</label>
-            <input
-              type="password"
-              name="newPassword"
-              value={formData.newPassword}
-              onChange={handleChange}
-              placeholder="New password"
-            />
-          </div>
+<div className="form-container">
+  <div className="form-group password-field">
+    <label>New Password</label>
+    <div className="password-wrapper">
+      <input
+        type={showNewPassword ? "text" : "password"}
+        name="newPassword"
+        value={formData.newPassword}
+        onChange={handleChange}
+        placeholder="New password"
+      />
+      <span
+        className="toggle-visibility"
+        onClick={() => setShowNewPassword(!showNewPassword)}
+      >
+        {showNewPassword ? <FiEye /> : <FiEyeOff />}
+      </span>
+    </div>
+  </div>
+  <div className="form-group password-field">
+    <label>Confirm Password</label>
+    <div className="password-wrapper">
+      <input
+        type={showConfirmPassword ? "text" : "password"}
+        name="confirmPassword"
+        value={formData.confirmPassword}
+        onChange={handleChange}
+        placeholder="Confirm password"
+      />
+      <span
+        className="toggle-visibility"
+        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+      >
+        {showConfirmPassword ? <FiEye /> : <FiEyeOff />}
+      </span>
+    </div>
+  </div>
+</div>
 
-          <div className="form-group">
-            <label>Confirm Password</label>
-            <input
-              type="password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              placeholder="Confirm password"
-            />
-          </div>
+
 
           <div className="form-group">
             <label>Driving License</label>
