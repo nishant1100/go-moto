@@ -258,34 +258,6 @@ const CarDetails = () => {
         </div>
       </div>
 
-
-
-      {/* Reviews Section */}
-      <div className={styles.reviewsSection}>
-        <h2>
-          Reviews <span className={styles.countBadge}>13</span>
-        </h2>
-        <div className={styles.reviewCard}>
-          <strong>Ramesh Shrestha</strong>
-          <p>
-            We are very happy with the service from the Go Moto. Go Moto has a
-            low price and also a large variety of cars with good and comfortable
-            facilities.
-          </p>
-          <p>⭐⭐⭐⭐</p>
-        </div>
-        <div className={styles.reviewCard}>
-          <strong>Prisha Shrestha</strong>
-          <p>
-            We are greatly helped by the services of Go Moto. Go Moto has low
-            prices and the service provided by the officers is also very
-            friendly.
-          </p>
-          <p>⭐⭐⭐⭐</p>
-        </div>
-        <p className={styles.showMore}>Show All ▼</p>
-      </div>
-
       {/* You May Also Like Section */}
       <div className={styles.recommendSection}>
         <h2>You may also like</h2>

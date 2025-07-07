@@ -244,7 +244,12 @@ const Home = () => {
         <h3>Latest blog posts & news</h3>
         <div className="blog-cards">
           {[blog1, blog2, blog4].map((img, idx) => (
-            <div className="blog-card" key={idx}>
+            <div
+              className="blog-card"
+              key={idx}
+              onClick={() => navigate('/blog')}
+              style={{ cursor: "pointer" }}
+            >
               <img src={img} alt={`Blog ${idx + 1}`} />
               <h4>
                 {[
@@ -258,6 +263,7 @@ const Home = () => {
           ))}
         </div>
       </section>
+
 
 
       {/* Newsletter */}

@@ -13,7 +13,6 @@ import UserProfile from './Pages/userprofile/userprofile';
 import ResetPassword from './Pages/reset/resetpw';
 import FakeEsewa from './Pages/payment/esewa';
 import PaymentSuccess from './Pages/payment/PaymentSuccess';
-
 import './App.css';
 
 import { ToastContainer } from 'react-toastify';
@@ -39,6 +38,8 @@ function App() {
             <Route path="/reset-password/:uidb64/:token" element={<ResetPassword />} />
             <Route path="/esewa" element={<FakeEsewa />} />
             <Route path="/payment-success" element={<PaymentSuccess />} />
+            <Route path="/blog" element={<Blog />} />  {/* ✅ only once */}
+
           </Routes>
         </main>
         <Footer />

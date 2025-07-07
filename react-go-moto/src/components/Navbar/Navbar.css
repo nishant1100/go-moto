@@ -56,9 +56,9 @@
   position: absolute;
   right: 10px;
   top: 60px; /* adjust depending on navbar height */
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  background: rgb(255, 255, 255);
+  border: 1px solid #fcfafa;
+  border-radius: 10px;
   list-style: none;
   padding: 0.5rem 0;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
@@ -71,7 +71,7 @@
 
 .dropdown-menu li a,
 .logout-btn {
-  color: #333;
+  color: #000000;
   text-decoration: none;
   display: block;
   width: 100%;

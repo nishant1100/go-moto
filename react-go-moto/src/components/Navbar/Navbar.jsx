@@ -2,6 +2,8 @@ import logo from '@/assets/gomoto_logo.png';
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
+import { FaUser, FaSignOutAlt } from "react-icons/fa";
+
 
 // You can replace this with an actual user icon or SVG
 const UserIcon = () => (
@@ -98,10 +100,9 @@ const Navbar = () => {
                 <ul className="dropdown-menu">
                   <li>
                     <Link to="/user-profile" onClick={() => setDropdownOpen(false)}>
+                      <FaUser style={{ marginRight: "8px" }} />
                       Profile
                     </Link>
-                  </li>
-                  <li>
                   </li>
                   <li>
                     <button
@@ -109,11 +110,13 @@ const Navbar = () => {
                       className="logout-btn"
                       type="button"
                     >
+                      <FaSignOutAlt style={{ marginRight: "8px" }} />
                       Logout
                     </button>
                   </li>
                 </ul>
               )}
+
             </div>
           )}
         </div>
