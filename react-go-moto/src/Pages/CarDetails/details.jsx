@@ -13,8 +13,10 @@ import "react-day-picker/dist/style.css";
 import { useNavigate, useParams } from "react-router-dom";
 import styles from "./details.module.css";
 import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-
+<ToastContainer position="top-center" autoClose={3000} />
 const CarDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -191,7 +193,7 @@ const CarDetails = () => {
                   selectedRange?.to &&
                   differenceInCalendarDays(selectedRange.to, selectedRange.from) > 6
                 ) {
-                  alert("You can only rent for up to 7 days.");
+                  toast.warning(" You can only rent for up to 7 days.");
                   return;
                 }
                 setRange(selectedRange);
@@ -222,35 +224,46 @@ const CarDetails = () => {
     opacity: car.available ? 1 : 0.5,
     cursor: car.available ? "pointer" : "not-allowed"
   }}
-  onClick={() => {
-    const user = localStorage.getItem('user');
+onClick={() => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const email = user?.email;
 
-    if (!car.available) {
-      toast.error("This car is currently unavailable!");
-      return;
-    }
+  if (!car.available) {
+    toast.error("This car is currently unavailable!");
+    return;
+  }
 
-    if (!user) {
-      toast.warning("Please log in to rent a car.");
-      navigate('/login');
-      return;
-    }
+  if (!user) {
+    toast.warning("Please log in to rent a car.");
+    navigate("/login");
+    return;
+  }
 
-    navigate(`/rent-summary/${car.id}`, {
-      state: {
-        carId: car.id,
-        dateRange: range,
-        pickupTime: pickupTime,
-        dropoffTime: dropoffTime,
-      },
-    });
-  }}
+  // 🔒 Check license using localStorage
+  const licenseImage = localStorage.getItem(`user_license_${email}`);
+  if (!licenseImage || licenseImage === "null") {
+    toast.warn("⚠️ Please verify your license before renting. Redirecting to your profile...");
+    setTimeout(() => {
+      navigate("/user-profile");
+    }, 1500);
+    return;
+  }
+
+  // ✅ All checks passed – proceed
+  navigate(`/rent-summary/${car.id}`, {
+    state: {
+      carId: car.id,
+      dateRange: range,
+      pickupTime: pickupTime,
+      dropoffTime: dropoffTime,
+    },
+  });
+}}
+
+
 >
   Rent a car
 </button>
-
-
-
             <button className={styles.backBtn} onClick={() => navigate(-1)}>
               Back
             </button>

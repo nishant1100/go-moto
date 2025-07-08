@@ -171,7 +171,7 @@ const MyRent = () => {
                                 <p>Rate/day: Nrs. {rentSummary?.ratePerDay || "N/A"}</p>
                                 <p>Total Price: Nrs.{rentSummary?.totalPrice || booking.total_price}</p>
                                 <p>Payment Status: <strong>{paymentStatus}</strong></p>
-                                <button onClick={() => handleCancel(booking.id)}>Cancel Booking</button>
+                                <button onClick={() => handleCancel(booking.id)}>Cancel rent</button>
                                 {booking.status === "returned" && (
                                     <button onClick={() => openReviewForm(booking.id)}>Leave a Review</button>
                                 )}

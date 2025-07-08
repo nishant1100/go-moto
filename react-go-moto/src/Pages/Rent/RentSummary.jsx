@@ -153,15 +153,6 @@ const handlePayAtOffice = () => {
         </div>
 
         <div className="summary-content">
-          <div className="summary-row">
-            <User size={20} />
-            <span><strong>Renter:</strong> Nishant Shrestha</span>
-          </div>
-
-          <div className="summary-row">
-            <CarFront size={20} />
-            <span><strong>Vehicle No:</strong> {car.vehicle_no}</span>
-          </div>
 
           <div className="summary-row">
             <CalendarDays size={20} />
