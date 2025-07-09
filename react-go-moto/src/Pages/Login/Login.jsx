@@ -2,6 +2,8 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
+
 
 // ✅ Toastify import
 import { toast } from 'react-toastify';
@@ -13,6 +15,8 @@ const Login = () => {
     const [recoverEmail, setRecoverEmail] = useState('');
     const [resetStatus, setResetStatus] = useState('');
     const navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false);
+
 
     const handleForgotClick = (e) => {
         e.preventDefault();
@@ -95,14 +99,23 @@ const Login = () => {
                             onChange={handleChange}
                             required
                         />
+                        <div className="password-input-wrapper">
                         <input
-                            type="password"
+                            type={showPassword ? 'text' : 'password'}
                             name="password"
                             placeholder="Password"
                             value={formData.password}
                             onChange={handleChange}
                             required
                         />
+                        <span
+                            className="password-toggle-icon"
+                            onClick={() => setShowPassword(prev => !prev)}
+                        >
+                            {showPassword ? <FiEye /> : <FiEyeOff />}
+                        </span>
+                        </div>
+
                         <button type="submit">Login</button>
 
                         <div className="form-actions">

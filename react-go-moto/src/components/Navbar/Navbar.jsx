@@ -5,7 +5,7 @@ import './Navbar.css';
 import { FaUser, FaSignOutAlt } from "react-icons/fa";
 
 
-// You can replace this with an actual user icon or SVG
+
 const UserIcon = () => (
   <svg
     width="24"
@@ -76,7 +76,7 @@ const Navbar = () => {
           {user ? (
             <li><Link to="/myRent">My Rents</Link></li>
           ) : (
-            <li><Link to="/terms">Terms & Conditions</Link></li>
+            <li><Link to="/terms-and-conditions">Terms & Conditions</Link></li>
           )}
           <li><Link to="/home#contact">Contact Us</Link></li>
         </ul>

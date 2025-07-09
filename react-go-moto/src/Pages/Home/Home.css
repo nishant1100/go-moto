@@ -76,7 +76,7 @@
 }
 
 .btn-primary {
-  background-color: #2499d7;
+  background-color: #045aaf;
   color: white;
   border: none;
 }
@@ -182,11 +182,11 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 3rem;
+  gap: 1.9rem;
 }
 
 .car-card.enhanced {
-  width: 320px;
+  width: 340px;
   background: white;
   border-radius: 12px;
   overflow: hidden;
@@ -222,7 +222,7 @@
 }
 
 .rent-btn {
-  background: #2499d7;
+  background: #045aaf;
   color: white;
   border: none;
   padding: 10px 16px;
@@ -510,4 +510,25 @@
   .contact-details {
     gap: 2rem;
   }
+}
+
+
+.back-to-top-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #4ade80;
+  color: white;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+  transition: background-color 0.3s ease;
+}
+
+.back-to-top-btn:hover {
+  background-color: #22c55e;
 }
