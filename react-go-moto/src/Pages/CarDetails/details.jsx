@@ -1,12 +1,5 @@
 import { differenceInCalendarDays, format } from "date-fns";
-import {
-  CalendarDays,
-  Fuel,
-  MoveRight,
-  Settings,
-  Snowflake,
-  Users,
-} from "lucide-react";
+import {CalendarDays, Fuel, MoveRight, Settings, Snowflake, Users,} from "lucide-react";
 import { useEffect, useState } from "react";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
@@ -242,7 +235,7 @@ onClick={() => {
   // 🔒 Check license using localStorage
   const licenseImage = localStorage.getItem(`user_license_${email}`);
   if (!licenseImage || licenseImage === "null") {
-    toast.warn("⚠️ Please verify your license before renting. Redirecting to your profile...");
+    toast.warn(" Please verify your license before renting. Redirecting to your profile...");
     setTimeout(() => {
       navigate("/user-profile");
     }, 1500);

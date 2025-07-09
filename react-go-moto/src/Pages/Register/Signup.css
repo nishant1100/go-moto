@@ -181,3 +181,11 @@ html, body, #root {
     font-size: 24px;
   }
 }
+
+.toggle-icon {
+  margin-top: 20px;
+  position: absolute;
+  right: 79px;
+  cursor: pointer;
+  color: #727070;
+}

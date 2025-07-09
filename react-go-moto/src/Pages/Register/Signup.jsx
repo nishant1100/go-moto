@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import './Signup.css';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -96,9 +97,18 @@ const Signup = () => {
 
           <form onSubmit={handleSubmit}>
             <input
-              name="username"
+              name="fullname"
               type="text"
               placeholder="Full Name"
+              value={formData.full}
+              onChange={handleChange}
+              required
+            />
+            {errors.username && <p className="error">{errors.fullname}</p>}
+            <input
+              name="username"
+              type="text"
+              placeholder="Username"
               value={formData.username}
               onChange={handleChange}
               required
@@ -115,37 +125,35 @@ const Signup = () => {
             />
             {errors.email && <p className="error">{errors.email}</p>}
 
-            <input
-              name="password"
-              type={showPasswords ? 'text' : 'password'}
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-            {errors.password && <p className="error">{errors.password}</p>}
+           <div className=".signup-form">
+          <input
+            name="password"
+            type={showPasswords ? 'text' : 'password'}
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+          <span onClick={() => setShowPasswords(!showPasswords)} className="toggle-icon">
+            {showPasswords ? <FiEye /> : <FiEyeOff />}
+          </span>
+        </div>
+        {errors.password && <p className="error">{errors.password}</p>}
 
-            <input
-              name="password2"
-              type={showPasswords ? 'text' : 'password'}
-              placeholder="Confirm Password"
-              value={formData.password2}
-              onChange={handleChange}
-              required
-            />
-            {errors.password2 && <p className="error">{errors.password2}</p>}
-
-            {/* Show Passwords Toggle */}
-            <div className="checkbox-wrapper">
-            <input
-              type="checkbox"
-              id="showPasswords"
-              checked={showPasswords}
-              onChange={() => setShowPasswords(!showPasswords)}
-            />
-            <label htmlFor="showPasswords">Show Password</label>
-          </div>
-
+        <div className=".signup-form">
+          <input
+            name="password2"
+            type={showPasswords ? 'text' : 'password'}
+            placeholder="Confirm Password"
+            value={formData.password2}
+            onChange={handleChange}
+            required
+          />
+          <span onClick={() => setShowPasswords(!showPasswords)} className="toggle-icon">
+            {showPasswords ? <FiEye /> : <FiEyeOff />}
+          </span>
+        </div>
+        {errors.password2 && <p className="error">{errors.password2}</p>}
             <button type="submit">Register</button>
 
             <p className="login-link">
